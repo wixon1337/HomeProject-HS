@@ -1,4 +1,4 @@
-package hu.flowacademy.Hearthstone.Models;
+package hu.flowacademy.Hearthstone.Model;
 
 public class Card {
     private Long mana;
