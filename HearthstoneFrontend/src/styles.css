@@ -1,1 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+.grid-container {
+    display: grid;
+    grid-template-areas: 
+        'header ophand opdeck' 
+        'chat opboard main' 
+        'chat board main2' 
+        'footer hand deck';
+    grid-template-columns: 20vw 1fr 20vw;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    height: 50vw;
+    grid-gap: 5px;
+    background-color: #2196F3;
+    padding: 5px;
+  }
+  
+  .grid-container > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid black;
+    text-align: center;
+    font-size: 4vw;
+    height: auto;
+ /*    max-height: 200px; */
+  }
+
+  .header { grid-area: header; }
+  .ophand { grid-area: ophand; }
+  .opdeck { grid-area: opdeck; }
+  .chat { grid-area: chat;}
+  .opboard { grid-area: opboard; }
+  .board { grid-area: board; }
+  .main2 { grid-area: main2; }
+  .footer { grid-area: footer; }
+  .hand { grid-area: hand; }
+  .deck { grid-area: deck; }
+
+  .boardcontainer {
+    display: grid;
+    grid-template-areas: 'first second third fourth fifth';
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+    background-color: rgb(243, 135, 33);
+    padding: 5px;
+    height: 12vw;
+  }
+
+    
+  .boardcontainer > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    font-size: 1vw;
+ /*    max-height: 200px; */
+  }
+
+  .opboardcontainer {
+    display: grid;
+    grid-template-areas: 'fifth fourth third second first';
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+    background-color: rgb(243, 135, 33);
+    padding: 5px;
+    height: 12vw;
+  }
+
+    
+  .opboardcontainer > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    font-size: 1vw;
+ /*    max-height: 200px; */
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

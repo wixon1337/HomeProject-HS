@@ -7,20 +7,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { HearthstoneComponent } from './component/hearthstone/hearthstone.component';
 import { GreetingsService } from './service/greetings.service';
 import { FormsModule } from '@angular/forms'
+import { HearthstoneService } from './service/hearthstone.service';
+import { HearthstonePlayer2Component } from './component/hearthstone-player2/hearthstone-player2.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HearthstoneComponent
+    HearthstoneComponent,
+    HearthstonePlayer2Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
-    GreetingsService
+    GreetingsService,
+    HearthstoneService
   ],
   bootstrap: [AppComponent]
 })

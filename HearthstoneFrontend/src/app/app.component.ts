@@ -9,33 +9,33 @@ import { WebSocketAPI } from './WebSocketAPI';
 })
 export class AppComponent {
   title = 'HearthstoneFrontend';
-  webSocketAPI: WebSocketAPI;
-  name: string;
-  greeting = "\"asdasdsad\"";
+  /*   webSocketAPI: WebSocketAPI;
+    name: string;
+    greeting = "\"asdasdsad\""; */
 
   constructor() {
   }
 
   ngOnInit() {
     // this.greetingsService.getGreetingsMessage().subscribe(message => this.title = message[0]);
-    this.webSocketAPI = new WebSocketAPI(new AppComponent());
+    // this.webSocketAPI = new WebSocketAPI(new AppComponent()); */
   }
 
-  connect() {
-    this.webSocketAPI._connect();
-  }
-
-  disconnect() {
-    this.webSocketAPI._disconnect();
-  }
-
-  sendMessage() {
-    this.webSocketAPI._send(this.name);
-  }
-
-  handleMessage(message) {
-    console.log(message);
-    this.greeting = message;
-    console.log(this.greeting)
-  }
+  /*   connect() {
+      this.webSocketAPI._connect();
+    }
+  
+    disconnect() {
+      this.webSocketAPI._disconnect();
+    }
+  
+    sendMessage() {
+      this.webSocketAPI._send(this.name);
+    }
+  
+    handleMessage(message) {
+      console.log(message);
+      this.greeting = message;
+      console.log(this.greeting)
+    } */
 }
