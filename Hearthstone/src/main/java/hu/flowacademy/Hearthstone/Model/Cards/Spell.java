@@ -1,6 +1,6 @@
-package hu.flowacademy.Hearthstone.Model;
+package hu.flowacademy.Hearthstone.Model.Cards;
 
-public class Spell extends Card {
+public abstract class Spell extends Card {
 
     public Spell(Integer cost) {
         super(cost);

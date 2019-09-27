@@ -1,4 +1,54 @@
 package hu.flowacademy.Hearthstone.Model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class PlayerMatches {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long webSocketAddress;
+
+    @Column
+    private String player1;
+
+    @Column
+    private String player2;
+
+    public PlayerMatches() {
+    }
+
+    public PlayerMatches(String player1, String player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+    }
+
+    public PlayerMatches(String player1) {
+        this.player1 = player1;
+    }
+
+    public Long getWebSocketAddress() {
+        return webSocketAddress;
+    }
+
+    public void setWebSocketAddress(Long webSocketAddress) {
+        this.webSocketAddress = webSocketAddress;
+    }
+
+    public String getPlayer1() {
+        return player1;
+    }
+
+    public void setPlayer1(String player1) {
+        this.player1 = player1;
+    }
+
+    public String getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
+    }
 }
