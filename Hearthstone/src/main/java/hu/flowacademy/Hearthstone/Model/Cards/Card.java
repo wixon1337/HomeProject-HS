@@ -1,14 +1,20 @@
 package hu.flowacademy.Hearthstone.Model.Cards;
 
 public abstract class Card {
+    public static Integer counter;
+    private final Integer id;
     private Integer cost;
     private Integer defaultCost;
-    private boolean isSummoned;
 
     public Card(Integer cost) {
         this.cost = cost;
         this.defaultCost = cost;
-        this.isSummoned = true;
+        if (counter == null) {
+            counter = 0;
+            this.id = counter++;
+        } else {
+            this.id = counter++;
+        }
     }
 
     public Integer getCost() {
@@ -23,11 +29,11 @@ public abstract class Card {
         return defaultCost;
     }
 
-    public boolean isSummoned() {
-        return isSummoned;
+    public static Integer getCounter() {
+        return counter;
     }
 
-    public void setSummoned(boolean summoned) {
-        isSummoned = summoned;
+    public Integer getId() {
+        return id;
     }
 }

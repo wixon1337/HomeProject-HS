@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HearthstoneService } from 'src/app/service/hearthstone.service';
 import * as Stomp from 'stompjs';
+import { Card } from 'src/app/model/card';
 
 
 @Component({
@@ -22,9 +23,12 @@ export class HearthstoneComponent implements OnInit {
   currentMessage: String;
   newData;
   board;
-  player1Boardside: [];
-  player2Boardside: [];
-  player1Deck = ["", "", "", "", ""];
+  player1Boardside;
+  player1Deck;
+  player1Hand;
+  player2Boardside;
+  player2Deck;
+  player2Hand;
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
@@ -33,7 +37,6 @@ export class HearthstoneComponent implements OnInit {
 
   start() {
     let username = this.userName;
-    console.log(username);
     this.hearthstoneService.getBoard(username).subscribe(data => {
       this.newData = data;
     },
@@ -44,16 +47,36 @@ export class HearthstoneComponent implements OnInit {
         // console.log((this.newData));
         this.userId = this.newData.userId;
         this.socketUrl = this.newData.socketUrl;
-        this.playGameUrl = '/playWithFriend/' + this.userName + '/' + this.socketUrl;
+        console.log(this.socketUrl);
+        this.playGameUrl = 'http://localhost:4200' + '/playWithFriend/' + this.userName + '/' + this.socketUrl;
+
         this.board = this.newData.board;
-        this.player1Deck = this.newData.board.player1Deck;
-        for (let i = 0; i < 5; i++) {
-          if (this.player1Deck[i] === undefined) this.player1Deck[i] = "";
-        }
-        console.log(this.player1Deck);
+        console.log(this.board);
+        this.player1Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player1Boardside);
+
+        this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player2Boardside);
+        //this.player2Boardside[2] = new Card("azaz", 3, 2, false, false, false);
+
+        this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player1Hand);
+
+        /*         this.player1Hand.push(new Card("da", 1, 1, false, false, false));
+                this.player1Hand.push(new Card("da", 1, 1, false, false, false));
+                this.player1Hand.push(new Card("da", 1, 1, false, false, false)); */
+
+        this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player2Hand);
+
+        /*         this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false));
+                this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false));
+                this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false)); */
+
+        this.player1Deck = this.board.player1Deck;
+        this.player2Deck = this.board.player2Deck;
+
       }
     )
   }
+
+
 
   sendMessage() {
     this.ws.send('/app/message/' + this.socketUrl, {}, { name: "hello" });
@@ -65,7 +88,7 @@ export class HearthstoneComponent implements OnInit {
     this.ws.connect({}, () => {
       this.ws.subscribe('/topic/reply/' + this.socketUrl, message => {
         console.log("eztet kaptam tetya: ");
-        console.log(message);
+        console.log(message.body);
       })
     });
   }
@@ -134,7 +157,7 @@ export class HearthstoneComponent implements OnInit {
           name: value
         }); */
     // this.ws.send('/app/message/' + this.socketUrl, {}, data);
-    this.ws.send('/app/message/' + this.socketUrl, {}, { name: value });
+    this.ws.send('/app/message/' + this.socketUrl, {}, value);
   }
 
 

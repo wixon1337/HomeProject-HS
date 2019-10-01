@@ -1,0 +1,51 @@
+<div class="grid-container">
+    <div class="ophero">ophero</div>
+    <div class="ophand">ophand</div>
+    <div class="opdeck">opdeck</div>
+
+    <div class="chat">chat</div>
+    <div class="opboard">
+        <div class="opboardcontainer">
+            <div>5</div>
+            <div>4</div>
+            <div>3</div>
+            <div>2</div>
+            <div>1</div>
+        </div>
+    </div>
+    <div class="main">main</div>
+
+    <div class="board">
+        <div class="boardcontainer">
+            <div>
+                <app-card-on-board [card]="player1Boardside[0]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[1]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[2]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[3]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[4]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+        </div>
+    </div>
+    <div class="main2">main2</div>
+
+    <div class="hero">hero</div>
+    <div class="hand handcontainer">
+        <div *ngFor="let card of player1Hand; let i = index">
+            <app-card-in-hand [card]="card"></app-card-in-hand>
+        </div>
+    </div>
+    <div class="deck">deck</div>
+</div>

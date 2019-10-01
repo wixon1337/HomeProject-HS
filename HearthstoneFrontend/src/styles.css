@@ -1,10 +1,12 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 .grid-container {
     display: grid;
     grid-template-areas: 
-        'header ophand opdeck' 
+        'ophero ophand opdeck' 
         'chat opboard main' 
         'chat board main2' 
-        'footer hand deck';
+        'hero hand deck';
     grid-template-columns: 20vw 1fr 20vw;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     height: 50vw;
@@ -17,19 +19,19 @@
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid black;
     text-align: center;
-    font-size: 4vw;
+    font-size: 1vw;
     height: auto;
  /*    max-height: 200px; */
   }
 
-  .header { grid-area: header; }
+  .header { grid-area: ophero; }
   .ophand { grid-area: ophand; }
   .opdeck { grid-area: opdeck; }
   .chat { grid-area: chat;}
   .opboard { grid-area: opboard; }
   .board { grid-area: board; }
   .main2 { grid-area: main2; }
-  .footer { grid-area: footer; }
+  .footer { grid-area: hero; }
   .hand { grid-area: hand; }
   .deck { grid-area: deck; }
 
@@ -68,5 +70,34 @@
     font-size: 1vw;
  /*    max-height: 200px; */
   }
+
+  .handcontainer {
+    display: grid;
+    grid-template-areas: 'first second third fourth fifth sixth';
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+    background-color: rgb(243, 135, 33);
+    padding: 5px;
+    height: 12vw;
+  }
+
+    
+  .handcontainer > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    font-size: 1vw;
+ /*    max-height: 200px; */
+  }
+
+  .cardback {
+    height: 12vw;
+  }
+
+  .cardTitle {
+    font-size: 1vw;
+  }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+

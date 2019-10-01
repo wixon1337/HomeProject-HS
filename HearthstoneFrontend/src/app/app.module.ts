@@ -10,19 +10,31 @@ import { FormsModule } from '@angular/forms'
 import { HearthstoneService } from './service/hearthstone.service';
 import { HearthstonePlayer2Component } from './component/hearthstone-player2/hearthstone-player2.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MaterialModule } from '../material.module';
+import { CardOnBoardComponent } from './component/card-on-board/card-on-board.component';
+import { CardInHandComponent } from './component/card-in-hand/card-in-hand.component';
+import { HearthstonePlayer1Component } from './component/hearthstone-player1/hearthstone-player1.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HearthstoneComponent,
-    HearthstonePlayer2Component
+    HearthstonePlayer2Component,
+    CardOnBoardComponent,
+    CardInHandComponent,
+    HearthstonePlayer1Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatNativeDateModule,
+    MatCardModule,
+    MaterialModule
   ],
   providers: [
     GreetingsService,

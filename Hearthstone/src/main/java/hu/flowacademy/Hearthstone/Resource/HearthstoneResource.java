@@ -50,4 +50,11 @@ public class HearthstoneResource {
     public String getPlayer2Name(@PathVariable("socketId") Long socketId) {
         return hearthstoneService.getPlayer2Name(socketId);
     }
+
+/*    @RequestMapping("/withFriend/{username}/{socketUrl}")
+    public String initPlayer2(@PathVariable("username") String username, @PathVariable("socketUrl") String socketUrl) {
+
+        // TODO
+        return "1";
+    }*/
 }

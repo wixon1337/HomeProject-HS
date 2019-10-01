@@ -1,7 +1,9 @@
 package hu.flowacademy.Hearthstone;
 
 import hu.flowacademy.Hearthstone.Model.Board;
+import hu.flowacademy.Hearthstone.Model.Cards.Card;
 import hu.flowacademy.Hearthstone.Model.Cards.Specific.ShroomBrewer;
+import hu.flowacademy.Hearthstone.Model.Cards.Specific.SimpleMinion;
 import hu.flowacademy.Hearthstone.Model.Heroes.Priest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,10 +42,24 @@ public class CardTest {
         ShroomBrewer sb = new ShroomBrewer();
         board.getPlayer1Hand().add(sb);
         assertTrue(board.getPlayer1Hand().contains(sb));
-        board.getPlayer1Boardside().add(sb);
+        board.getPlayer1Boardside()[0] = (sb);
         board.getPlayer1Hand().remove(sb);
         assertFalse(board.getPlayer1Hand().contains(sb));
-        assertTrue(board.getPlayer1Boardside().contains(sb));;
+        assertSame(board.getPlayer1Boardside()[0], (sb));;
 
+        System.out.println("sb id: " + board.getPlayer1Boardside()[0].getId());
+
+    }
+
+    @Test
+    void counterShouldCountProperly() {
+        SimpleMinion minion1 = new SimpleMinion(2,3,4,false,false,"Minion1");
+        ShroomBrewer sb = new ShroomBrewer();
+        assertEquals(2, Card.counter);
+        SimpleMinion minion2 = new SimpleMinion(2,5,4, true,true, "Minion2");
+        assertEquals(3, Card.counter);
+        assertNotEquals(1, Card.counter);
+/*        System.out.println("sb id:" + sb.getId());
+        System.out.println("minion1 id:" + minion1.getId());*/
     }
 }

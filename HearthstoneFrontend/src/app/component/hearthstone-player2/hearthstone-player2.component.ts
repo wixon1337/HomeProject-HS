@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HearthstoneService } from 'src/app/service/hearthstone.service';
 import * as Stomp from 'stompjs';
 import { ActivatedRoute } from '@angular/router';
+import { Card } from 'src/app/model/card';
 
 @Component({
   selector: 'app-hearthstone-player2',
@@ -20,24 +21,97 @@ export class HearthstonePlayer2Component implements OnInit {
   ourTurn: boolean;
   gameover: boolean;
   currentMessage: String;
+  newData;
+  board;
+  player1Boardside;
+  player1Deck;
+  player1Hand;
+  player2Boardside;
+  player2Deck;
+  player2Hand;
+  usernameGiven = false;
 
   constructor(private hearthstoneService: HearthstoneService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    let tempUserNameObject;
-    this.socketUrl = this.activatedRoute.snapshot.params.socketUrl;
-    this.opponentUserId = this.activatedRoute.snapshot.params.userId;
-    this.hearthstoneService.getUserName(this.opponentUserId).subscribe(data => {
-      tempUserNameObject = data;
-    }, error => {
-      console.error(error);
-    }, () => {
-      this.opponentUserName = tempUserNameObject.userName;
-      console.log('Opp User Name: ' + this.opponentUserName);
-    });
+
   }
 
   connect() {
+    const socket = new WebSocket('ws://localhost:8081/greeting');
+    this.ws = Stomp.over(socket);
+    this.ws.connect({}, () => {
+      this.ws.subscribe('/topic/reply/' + this.socketUrl, message => {
+        console.log("eztet kaptam tetya: ");
+        console.log(message.body);
+      })
+    });
+  }
+
+  start() {
+    if (this.userName !== null && this.userName !== "") {
+      this.usernameGiven = true;
+      this.initPlayer2();
+    }
+  }
+
+  initPlayer2() {
+    this.socketUrl = this.activatedRoute.snapshot.params.socketUrl;
+    this.opponentUserName = this.activatedRoute.snapshot.params.userName;
+    console.log(this.activatedRoute.snapshot.params);
+
+    this.hearthstoneService.getBoard(this.opponentUserName).subscribe(data => {
+      this.newData = data;
+    },
+      err => {
+        console.log(err);
+      },
+      () => {
+        // console.log((this.newData));
+        this.opponentUserId = this.newData.userId;
+
+        this.board = this.newData.board;
+        console.log(this.board);
+        this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player1Boardside);
+
+        this.player1Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player2Boardside);
+        // this.player1Boardside[2] = new Card("azaz", 3, 2, false, false, false);
+
+        this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player1Hand);
+
+        /*         this.player2Hand.push(new Card("da", 1, 1, false, false, false));
+                this.player2Hand.push(new Card("da", 1, 1, false, false, false));
+                this.player2Hand.push(new Card("da", 1, 1, false, false, false)); */
+
+        this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player2Hand);
+
+        /*         this.player1Hand.push(new Card("nemanyád", 2, 3, false, false, false));
+                this.player1Hand.push(new Card("nemanyád", 2, 3, false, false, false));
+                this.player1Hand.push(new Card("nemanyád", 2, 3, false, false, false)); */
+
+        this.player2Deck = this.board.player1Deck;
+        this.player1Deck = this.board.player2Deck;
+
+      }
+    )
+    /*     let tempUserNameObject;
+        this.socketUrl = this.activatedRoute.snapshot.params.socketUrl;
+        console.log(this.activatedRoute.snapshot.params);
+        this.opponentUserId = this.activatedRoute.snapshot.params.userId;
+        console.log(this.opponentUserId);
+        this.hearthstoneService.getUserName(this.opponentUserId).subscribe(data => {
+          tempUserNameObject = data;
+        }, error => {
+          console.error(error);
+        }, () => {
+          this.opponentUserName = tempUserNameObject.userName;
+          console.log('Opp User Name: ' + this.opponentUserName);
+        }); */
+    this.connect();
+  }
+
+
+  connect2() {
     const socket = new WebSocket('ws://localhost:8081/greeting');
     this.ws = Stomp.over(socket);
     const that = this;
@@ -46,10 +120,11 @@ export class HearthstonePlayer2Component implements OnInit {
         alert('Error ' + message.body);
       });
       that.ws.subscribe('/topic/reply/' + this.socketUrl, message => {
+        console.log(message);
         if (message.body === 'start') {
           this.ourTurn = true;
         } else {
-          const stringInfo = JSON.parse(message.body);
+          const stringInfo = (message.body);
           if (stringInfo.turnBy == 'p2') {
             this.ourTurn = false; // TODO
           } else if (stringInfo.turnBy == 'p1') {
@@ -78,12 +153,13 @@ export class HearthstonePlayer2Component implements OnInit {
     console.log('Disconnected');
   }
 
+
   sendName(value) {
-    const data = JSON.stringify({
-      name: value
-    });
-    this.ws.send('/app/message/' + this.socketUrl, {}, data);
-    console.log('SEND-SEND ' + value);
+    /*     const data = JSON.stringify({
+          name: value
+        }); */
+    // this.ws.send('/app/message/' + this.socketUrl, {}, data);
+    this.ws.send('/app/message/' + this.socketUrl, {}, { name: value });
   }
 
 

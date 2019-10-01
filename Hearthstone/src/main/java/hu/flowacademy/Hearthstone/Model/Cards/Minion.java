@@ -1,5 +1,7 @@
 package hu.flowacademy.Hearthstone.Model.Cards;
 
+import javax.validation.constraints.Min;
+
 public abstract class Minion extends Card {
     private Integer attack;
     private Integer health;
@@ -7,6 +9,7 @@ public abstract class Minion extends Card {
     private final Integer defaultHealth;
     private boolean isCharge;
     private boolean isTaunt;
+    private boolean isSummoned;
 
     public Minion(Integer cost, Integer attack, Integer health, boolean isCharge, boolean isTaunt) {
         super(cost);
@@ -16,6 +19,18 @@ public abstract class Minion extends Card {
         this.defaultHealth = health;
         this.isCharge = isCharge;
         this.isTaunt = isTaunt;
+        this.isSummoned = false;
+    }
+
+    public Minion(Integer cost, Integer attack, Integer health) {
+        super(cost);
+        this.attack = attack;
+        this.health = health;
+        this.defaultAttack = attack;
+        this.defaultHealth = health;
+        this.isCharge = false;
+        this.isTaunt = false;
+        this.isSummoned = false;
     }
 
     public Integer getHealth() {
@@ -56,5 +71,13 @@ public abstract class Minion extends Card {
 
     public void setTaunt(boolean taunt) {
         isTaunt = taunt;
+    }
+
+    public boolean isSummoned() {
+        return isSummoned;
+    }
+
+    public void setSummoned(boolean summoned) {
+        isSummoned = summoned;
     }
 }

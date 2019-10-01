@@ -1,0 +1,19 @@
+.cardimage {
+    max-width: 5vw;
+  }
+
+.wrapper {
+    max-height: 8vw;
+}
+
+.cardTitle {
+  font-size: 1.2vw;
+}
+
+.cardSubTitle {
+  font-size: 1vw;
+}
+
+.cardDesc {
+  font-size: 0.8vw;
+}

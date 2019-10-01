@@ -13,8 +13,17 @@ public class GameInstance {
     @Column
     private String username;
 
+    @Column
+    private Long socketUrl;
+
     @Transient
     private Board board;
+
+    @Column
+    private boolean finished;
+
+    @Column
+    private boolean p1Turn;
 
     public GameInstance() {
     }
@@ -23,6 +32,8 @@ public class GameInstance {
         this.userId = userId;
         this.username = username;
         this.board = new Board();
+        this.finished = false;
+        this.p1Turn = true;
     }
 
     public String getUserId() {
@@ -43,5 +54,29 @@ public class GameInstance {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Long getSocketUrl() {
+        return socketUrl;
+    }
+
+    public void setSocketUrl(Long socketUrl) {
+        this.socketUrl = socketUrl;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public boolean isP1Turn() {
+        return p1Turn;
+    }
+
+    public void setP1Turn(boolean p1Turn) {
+        this.p1Turn = p1Turn;
     }
 }

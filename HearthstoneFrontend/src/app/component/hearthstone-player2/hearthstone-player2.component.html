@@ -1,2 +1,85 @@
-<p>hearthstone-player2 works!</p>
-<button (click)="connect()">Connect</button>
+<div *ngIf="!usernameGiven">
+    <input id="username" [(ngModel)]="userName" type="text">
+    <button (click)="start()">Start</button>
+</div>
+
+<div class="grid-container" *ngIf="usernameGiven">
+    <div class="ophero"> {{ opponentUserName }} </div>
+    <div class="ophand handcontainer">
+        <div *ngFor="let card of player2Hand; let i = index">
+            <img class="cardback" src="../../../assets/cardback_0.png" alt="cardback">
+        </div>
+    </div>
+    <div class="opdeck">
+        <div *ngIf="player2Deck !== undefined">
+            Cards left: {{ player2Deck.length }}
+        </div>
+    </div>
+
+    <div class="chat">chat</div>
+    <div class="opboard">
+        <div class="opboardcontainer">
+            <div>
+                <app-card-on-board [card]="player2Boardside[4]" *ngIf="player2Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player2Boardside[3]" *ngIf="player2Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player2Boardside[2]" *ngIf="player2Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player2Boardside[1]" *ngIf="player2Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player2Boardside[0]" *ngIf="player2Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+        </div>
+    </div>
+    <div class="main"></div>
+    <div class="board">
+        <div class="boardcontainer">
+            <div>
+                <app-card-on-board [card]="player1Boardside[0]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[1]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[2]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[3]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+            <div>
+                <app-card-on-board [card]="player1Boardside[4]" *ngIf="player1Boardside !== undefined">
+                </app-card-on-board>
+            </div>
+        </div>
+    </div>
+    <div class="main2">
+        <button mat-fab class="primary">End Turn</button>
+    </div>
+
+    <div class="hero"> {{ userName }} </div>
+
+    <div class="hand handcontainer">
+        <div *ngFor="let card of player1Hand; let i = index">
+            <app-card-in-hand [card]="card"></app-card-in-hand>
+        </div>
+    </div>
+    <div class="deck">
+        <div *ngIf="player1Deck !== undefined">
+            Cards left: {{ player1Deck.length }}
+        </div>
+    </div>
+</div>
