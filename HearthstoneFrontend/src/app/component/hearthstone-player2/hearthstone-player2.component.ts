@@ -30,6 +30,7 @@ export class HearthstonePlayer2Component implements OnInit {
   player2Deck;
   player2Hand;
   usernameGiven = false;
+  selected = [];
 
   constructor(private hearthstoneService: HearthstoneService, private activatedRoute: ActivatedRoute) { }
 
@@ -64,6 +65,7 @@ export class HearthstonePlayer2Component implements OnInit {
               this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.newData.player2Hand);
               this.player2Deck = this.newData.player1Deck;
               this.player1Deck = this.newData.player2Deck;
+              this.ourTurn = !this.newData.p1Turn;
             })
         }
       })
@@ -138,6 +140,9 @@ export class HearthstonePlayer2Component implements OnInit {
     this.ourTurn = !this.ourTurn
   }
 
+  summonMinion(cardId) {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "summonp2", username: this.opponentUserName, cardId: cardId }))
+  }
 
   connect2() {
     const socket = new WebSocket('ws://localhost:8081/greeting');

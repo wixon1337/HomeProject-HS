@@ -3,6 +3,7 @@ package hu.flowacademy.Hearthstone.Model;
 import hu.flowacademy.Hearthstone.Model.Cards.Card;
 import hu.flowacademy.Hearthstone.Model.Cards.Minion;
 
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -14,6 +15,7 @@ public class Board {
     private Minion[] player2Boardside;
     private ArrayList<Card> player1Deck;
     private ArrayList<Card> player2Deck;
+    private boolean p1Turn;
 
     public Board() {
         this.player1Hand = new ArrayList<>();
@@ -22,16 +24,8 @@ public class Board {
         this.player2Boardside = new Minion[5];
         this.player1Deck = new ArrayList<>();
         this.player2Deck = new ArrayList<>();
+        this.p1Turn = true;
     }
-
-    public void drawCardByPlayer1() {
-        player1Hand.add(this.player1Deck.remove(new Random().nextInt(player1Deck.size())));
-    }
-
-    public void drawCardByPlayer2() {
-        player2Hand.add(this.player2Deck.remove(new Random().nextInt(player2Deck.size())));
-    }
-
 
     public ArrayList<Card> getPlayer1Hand() {
         return player1Hand;
@@ -61,7 +55,45 @@ public class Board {
         return player2Deck;
     }
 
-    public void summonMinion(Minion minion, int index) {
+    public boolean isP1Turn() {
+        return p1Turn;
+    }
+
+    public void setP1Turn(boolean p1Turn) {
+        this.p1Turn = p1Turn;
+    }
+
+    public void drawCardByPlayer1() {
+        player1Hand.add(this.player1Deck.remove(new Random().nextInt(player1Deck.size())));
+    }
+
+    public void drawCardByPlayer2() {
+        player2Hand.add(this.player2Deck.remove(new Random().nextInt(player2Deck.size())));
+    }
+
+    public Minion findMinionInPlayer1HandById(Integer cardId) {
+        for (Card c : this.getPlayer1Hand()) {
+            if (c.getId().equals(cardId)) {
+                return (Minion) c;
+            }
+        }
+        return null;
+    }
+
+    public Minion findMinionInPlayer2HandById(Integer cardId) {
+        for (Card c : this.getPlayer2Hand()) {
+            if (c.getId().equals(cardId)) {
+                return (Minion) c;
+            }
+        }
+        return null;
+    }
+
+    public void summonMinionByPlayer1(Minion minion, int index) {
         this.player1Boardside[index] = minion;
+    }
+
+    public void summonMinionByPlayer2(Minion minion, int index) {
+        this.player2Boardside[index] = minion;
     }
 }

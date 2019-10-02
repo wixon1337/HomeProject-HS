@@ -74,7 +74,7 @@
 
     <div class="hand handcontainer">
         <div *ngFor="let card of player1Hand; let i = index">
-            <app-card-in-hand [card]="card"></app-card-in-hand>
+            <app-card-in-hand [card]="card" (summonEvent)="summonMinion($event)"></app-card-in-hand>
         </div>
     </div>
     <div class="deck">

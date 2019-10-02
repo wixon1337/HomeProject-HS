@@ -89,6 +89,10 @@ export class HearthstoneComponent implements OnInit {
     this.ourTurn = !this.ourTurn;
   }
 
+  summonMinion(cardId) {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "summon", username: this.userName, cardId: cardId }))
+  }
+
   connect() {
     const socket = new WebSocket('ws://localhost:8081/greeting');
     this.ws = Stomp.over(socket);
@@ -110,6 +114,7 @@ export class HearthstoneComponent implements OnInit {
               this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.newData.player2Hand);
               this.player1Deck = this.newData.player1Deck;
               this.player2Deck = this.newData.player2Deck;
+              this.ourTurn = this.newData.p1Turn;
             })
         }
       })

@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Card } from 'src/app/model/card';
+import { HearthstoneService } from 'src/app/service/hearthstone.service';
 
 @Component({
   selector: 'app-card-in-hand',
@@ -9,13 +10,19 @@ import { Card } from 'src/app/model/card';
 export class CardInHandComponent implements OnInit {
 
   @Input() card: Card;
+  @Output() summonEvent = new EventEmitter<number>();
 
-  constructor() { }
+  constructor(private hearthstoneService: HearthstoneService) { }
 
   ngOnInit() {
   }
 
+  /*   summon() {
+      console.log(this.card);
+      this.hearthstoneService.summon(this.card.id);
+    } */
+
   summon() {
-    console.log(this.card);
+    this.summonEvent.next(this.card.id);
   }
 }

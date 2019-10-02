@@ -3,18 +3,20 @@ package hu.flowacademy.Hearthstone.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import hu.flowacademy.Hearthstone.Model.Board;
+import hu.flowacademy.Hearthstone.Model.Cards.Minion;
 import hu.flowacademy.Hearthstone.Model.GameInstance;
+import hu.flowacademy.Hearthstone.Model.GameModel;
 import hu.flowacademy.Hearthstone.Repository.GameInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Service
 public class WebSocketCommunicationService {
+
+    // public Map<String, GameModel> gameModelMap = new HashMap<>();
 
     public Map<String, Board> boards = new HashMap<>();
 
@@ -60,7 +62,13 @@ public class WebSocketCommunicationService {
                 type = "endTurn";
             } else if (messageMap.get("type").equals("endTurnp2")) {
                 System.out.println("van benne type és az endTurn2");
-                type="endTurnp2";
+                type = "endTurnp2";
+            } else if (messageMap.get("type").equals("summon")) {
+                System.out.println("van benne type és ez summon");
+                type = "summon";
+            } else if (messageMap.get("type").equals("summonp2")) {
+                System.out.println("van benne type és ez a summonp2");
+                type = "summonp2";
             }
         }
         if (messageMap.containsKey("username")) {
@@ -95,9 +103,23 @@ public class WebSocketCommunicationService {
             }*/
             board.drawCardByPlayer2();
             gameInstance.setP1Turn(false);
+            board.setP1Turn(false);
         } else if (type.equals("endTurnp2")) {
             board.drawCardByPlayer1();
             gameInstance.setP1Turn(true);
+            board.setP1Turn(true);
+        } else if (type.equals("summon")) {
+            if (board.isP1Turn()) {
+                Minion minion = board.findMinionInPlayer1HandById(Integer.parseInt(messageMap.get("cardId")));
+                board.summonMinionByPlayer1(minion, generateValidPlaceToSummon(board.getPlayer1Boardside()));
+                board.getPlayer1Hand().remove(minion);
+            }
+        } else if (type.equals("summonp2")) {
+            if (!board.isP1Turn()) {
+                Minion minion = board.findMinionInPlayer2HandById(Integer.parseInt(messageMap.get("cardId")));
+                board.summonMinionByPlayer2(minion, generateValidPlaceToSummon(board.getPlayer2Boardside()));
+                board.getPlayer2Hand().remove(minion);
+            }
         }
 /*        GameInstance gameInstance = this.gameInstanceRepository.findByUsername(username);
         System.out.println(gameInstance == null);
@@ -115,6 +137,14 @@ public class WebSocketCommunicationService {
         // System.out.println(gameInstance.getBoard() == null);
         // System.out.println(gameInstance.getBoard().getPlayer1Hand().size() + " és p2hand: " + gameInstance.getBoard().getPlayer2Hand().size());
         return answer;
+    }
+
+    public Integer generateValidPlaceToSummon(Minion[] boardside) {
+        Integer random = new Random().nextInt(5);
+        while (boardside[random] != null) {
+            random = new Random().nextInt(5);
+        }
+        return random;
     }
 
 /*    private String p1Endturn() {
