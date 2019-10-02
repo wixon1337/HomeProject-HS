@@ -34,7 +34,13 @@ export class HearthstonePlayer2Component implements OnInit {
   constructor(private hearthstoneService: HearthstoneService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.ourTurn = false;
+    /*     this.hearthstoneService.currentMessage.subscribe(message => {
+          this.message = message;
+          if (message === "endedTurn") {
+            this.ourTurn = true;
+          }
+        }) */
   }
 
   connect() {
@@ -44,6 +50,22 @@ export class HearthstonePlayer2Component implements OnInit {
       this.ws.subscribe('/topic/reply/' + this.socketUrl, message => {
         console.log("eztet kaptam tetya: ");
         console.log(message.body);
+        if (message.body === "update") {
+          this.hearthstoneService.updateBoard(this.opponentUserName).subscribe(data => {
+            this.newData = data;
+          }, err => {
+            console.log(err);
+          },
+            () => {
+              console.log(this.newData);
+              this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.newData.player1Boardside);
+              this.player1Boardside = this.hearthstoneService.convertBoardsideArray(this.newData.player2Boardside);
+              this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.newData.player1Hand);
+              this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.newData.player2Hand);
+              this.player2Deck = this.newData.player1Deck;
+              this.player1Deck = this.newData.player2Deck;
+            })
+        }
       })
     });
   }
@@ -108,6 +130,12 @@ export class HearthstonePlayer2Component implements OnInit {
           console.log('Opp User Name: ' + this.opponentUserName);
         }); */
     this.connect();
+  }
+
+  endTurn() {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "endTurnp2", username: this.opponentUserName }));
+    console.log(this.ourTurn);
+    this.ourTurn = !this.ourTurn
   }
 
 

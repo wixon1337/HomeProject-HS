@@ -1,11 +1,12 @@
 package hu.flowacademy.Hearthstone.Resource;
 
 import com.google.gson.Gson;
+import hu.flowacademy.Hearthstone.Model.Board;
 import hu.flowacademy.Hearthstone.Model.GameInstance;
-import hu.flowacademy.Hearthstone.Model.GameModel;
 import hu.flowacademy.Hearthstone.Repository.GameInstanceRepository;
 import hu.flowacademy.Hearthstone.Repository.PlayerMatchesRepository;
 import hu.flowacademy.Hearthstone.Service.HearthstoneService;
+import hu.flowacademy.Hearthstone.Service.WebSocketCommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,10 @@ import java.util.List;
 public class HearthstoneResource {
 
     private final Gson jsonParser = new Gson();
+
+    @Autowired
+    WebSocketCommunicationService wscService;
+
 /*    private GameInstanceRepository gameInstanceRepository;
     private PlayerMatchesRepository playerMatchesRepository;
 
@@ -39,6 +44,11 @@ public class HearthstoneResource {
     @RequestMapping("/newgame/{username}")
     public GameInstance initPlayer1 (@PathVariable("username") String username) {
         return hearthstoneService.initPlayer1(username);
+    }
+
+    @RequestMapping("/update/{username}")
+    public Board update(@PathVariable("username") String username) {
+        return this.wscService.boards.get(username);
     }
 
     @RequestMapping("/getUsername/{userId}")

@@ -5,7 +5,6 @@ import hu.flowacademy.Hearthstone.Model.Cards.Card;
 import hu.flowacademy.Hearthstone.Model.Cards.Specific.ShroomBrewer;
 import hu.flowacademy.Hearthstone.Model.Cards.Specific.SimpleMinion;
 import hu.flowacademy.Hearthstone.Model.GameInstance;
-import hu.flowacademy.Hearthstone.Model.GameModel;
 import hu.flowacademy.Hearthstone.Model.PlayerMatches;
 import hu.flowacademy.Hearthstone.Repository.GameInstanceRepository;
 import hu.flowacademy.Hearthstone.Repository.PlayerMatchesRepository;
@@ -19,6 +18,9 @@ import java.util.UUID;
 
 @Service
 public class HearthstoneService {
+
+    @Autowired
+    private WebSocketCommunicationService wscService;
 
     @Autowired
     private GameInstanceRepository gameInstanceRepository;
@@ -36,6 +38,9 @@ public class HearthstoneService {
         // gameModel.setSocketUrl(socketUrl);
         gameInstance.setSocketUrl(socketUrl);
 
+
+
+
 /*        gameInstance.getBoard().getPlayer1Deck().add(new ShroomBrewer());
         gameInstance.getBoard().getPlayer1Deck().add(new ShroomBrewer());
         gameInstance.getBoard().getPlayer1Hand().add(new ShroomBrewer());
@@ -43,7 +48,7 @@ public class HearthstoneService {
         gameInstance.getBoard().getPlayer1Hand().add(new ShroomBrewer());
         gameInstance.getBoard().summonMinion(new ShroomBrewer(), 1);*/
 
-        start(gameInstance);
+        start(gameInstance, username);
 
         return gameInstance;
     }
@@ -60,7 +65,7 @@ public class HearthstoneService {
         return playerMatchesRepository.findOneByWebSocketAddress(socketId).getPlayer2();
     }
 
-    public void start(GameInstance gameInstance) {
+    public void start(GameInstance gameInstance, String username) {
         Board board = gameInstance.getBoard();
         List<Card> cardList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -85,7 +90,8 @@ public class HearthstoneService {
         }
 
         startingDraw(board);
-
+        board.drawCardByPlayer1();
+        this.wscService.boards.put(username, board);
     }
     
     public void startingDraw(Board board) {

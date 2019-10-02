@@ -1,7 +1,6 @@
 package hu.flowacademy.Hearthstone.Resource;
 
 import com.google.gson.Gson;
-import hu.flowacademy.Hearthstone.Model.GameModel;
 import hu.flowacademy.Hearthstone.Repository.GameInstanceRepository;
 import hu.flowacademy.Hearthstone.Repository.PlayerMatchesRepository;
 import hu.flowacademy.Hearthstone.Service.WebSocketCommunicationService;
@@ -42,13 +41,13 @@ public class WebSocketResource {
 
 
         System.out.println("message recieved: " + message); // Stringet vár!
-        jsonParser.toJson("szia TODO");
-        return "szia";
+ /*       jsonParser.toJson("szia TODO");*/
+        return this.wscService.handleMessage(message);
     }
 
-    @MessageExceptionHandler
+/*    @MessageExceptionHandler
     public String handleException(Throwable exception) {
         messageSendingOperations.convertAndSend("/errors", exception.getMessage());
         return exception.getMessage();
-    }
+    }*/
 }

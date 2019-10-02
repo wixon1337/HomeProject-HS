@@ -71,6 +71,7 @@ export class HearthstoneComponent implements OnInit {
 
         this.player1Deck = this.board.player1Deck;
         this.player2Deck = this.board.player2Deck;
+        this.ourTurn = true;
 
       }
     )
@@ -82,6 +83,12 @@ export class HearthstoneComponent implements OnInit {
     this.ws.send('/app/message/' + this.socketUrl, {}, { name: "hello" });
   }
 
+  endTurn() {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "endTurn", username: this.userName }));
+    console.log(this.ourTurn);
+    this.ourTurn = !this.ourTurn;
+  }
+
   connect() {
     const socket = new WebSocket('ws://localhost:8081/greeting');
     this.ws = Stomp.over(socket);
@@ -89,6 +96,22 @@ export class HearthstoneComponent implements OnInit {
       this.ws.subscribe('/topic/reply/' + this.socketUrl, message => {
         console.log("eztet kaptam tetya: ");
         console.log(message.body);
+        if (message.body === "update") {
+          this.hearthstoneService.updateBoard(this.userName).subscribe(data => {
+            this.newData = data;
+          }, err => {
+            console.log(err);
+          },
+            () => {
+              console.log(this.newData);
+              this.player1Boardside = this.hearthstoneService.convertBoardsideArray(this.newData.player1Boardside);
+              this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.newData.player2Boardside);
+              this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.newData.player1Hand);
+              this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.newData.player2Hand);
+              this.player1Deck = this.newData.player1Deck;
+              this.player2Deck = this.newData.player2Deck;
+            })
+        }
       })
     });
   }

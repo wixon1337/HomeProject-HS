@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class="main2">
-        <button mat-fab class="primary">End Turn</button>
+        <button mat-fab class="primary" [disabled]="!ourTurn" (click)="endTurn()">End Turn</button>
     </div>
 
     <div class="hero"> {{ userName }} </div>

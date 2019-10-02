@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface GameInstanceRepository extends JpaRepository<GameInstance, String> {
 
     GameInstance findOneByUserId(String userId);
+
+    GameInstance findByUsername(String username);
 }

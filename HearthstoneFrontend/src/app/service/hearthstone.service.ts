@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Card } from '../model/card';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class HearthstoneService {
     return this.http.get('/server/playWithFriend/' + username + '/' + socketUrl);
   }
 
+  updateBoard(username) {
+    return this.http.get('http://localhost:8081/api/update/' + username);
+  }
+
   convertBoardsideArray(array) {
     for (let i = 0; i < 5; i++) {
       if (array[i] === null) {
@@ -41,5 +46,9 @@ export class HearthstoneService {
       element = new Card(element.id, element.name, element.attack, element.health, element.taunt, element.charge, element.summoned);
     });
     return array;
+  }
+
+  p2endTurn() {
+
   }
 }
