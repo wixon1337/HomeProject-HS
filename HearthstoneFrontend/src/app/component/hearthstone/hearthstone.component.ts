@@ -29,6 +29,7 @@ export class HearthstoneComponent implements OnInit {
   player2Boardside;
   player2Deck;
   player2Hand;
+  usernameGiven;
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
@@ -36,45 +37,49 @@ export class HearthstoneComponent implements OnInit {
   }
 
   start() {
-    let username = this.userName;
-    this.hearthstoneService.getBoard(username).subscribe(data => {
-      this.newData = data;
-    },
-      err => {
-        console.log(err);
+    if (this.userName !== null && this.userName !== "") {
+      this.usernameGiven = true;
+      let username = this.userName;
+      this.hearthstoneService.getBoard(username).subscribe(data => {
+        this.newData = data;
       },
-      () => {
-        // console.log((this.newData));
-        this.userId = this.newData.userId;
-        this.socketUrl = this.newData.socketUrl;
-        console.log(this.socketUrl);
-        this.playGameUrl = 'http://localhost:4200' + '/playWithFriend/' + this.userName + '/' + this.socketUrl;
+        err => {
+          console.log(err);
+        },
+        () => {
+          // console.log((this.newData));
+          this.userId = this.newData.userId;
+          this.socketUrl = this.newData.socketUrl;
+          console.log(this.socketUrl);
+          this.playGameUrl = 'http://localhost:4200' + '/playWithFriend/' + this.userName + '/' + this.socketUrl;
 
-        this.board = this.newData.board;
-        console.log(this.board);
-        this.player1Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player1Boardside);
+          this.board = this.newData.board;
+          console.log(this.board);
+          this.player1Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player1Boardside);
 
-        this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player2Boardside);
-        //this.player2Boardside[2] = new Card("azaz", 3, 2, false, false, false);
+          this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player2Boardside);
+          //this.player2Boardside[2] = new Card("azaz", 3, 2, false, false, false);
 
-        this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player1Hand);
+          this.player1Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player1Hand);
 
-        /*         this.player1Hand.push(new Card("da", 1, 1, false, false, false));
-                this.player1Hand.push(new Card("da", 1, 1, false, false, false));
-                this.player1Hand.push(new Card("da", 1, 1, false, false, false)); */
+          /*         this.player1Hand.push(new Card("da", 1, 1, false, false, false));
+                  this.player1Hand.push(new Card("da", 1, 1, false, false, false));
+                  this.player1Hand.push(new Card("da", 1, 1, false, false, false)); */
 
-        this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player2Hand);
+          this.player2Hand = this.hearthstoneService.convertArrayToCardArray(this.board.player2Hand);
 
-        /*         this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false));
-                this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false));
-                this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false)); */
+          /*         this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false));
+                  this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false));
+                  this.player2Hand.push(new Card("nemanyád", 2, 3, false, false, false)); */
 
-        this.player1Deck = this.board.player1Deck;
-        this.player2Deck = this.board.player2Deck;
-        this.ourTurn = true;
+          this.player1Deck = this.board.player1Deck;
+          this.player2Deck = this.board.player2Deck;
+          this.ourTurn = true;
 
-      }
-    )
+        }
+      )
+      this.connect();
+    }
   }
 
 
@@ -195,5 +200,19 @@ export class HearthstoneComponent implements OnInit {
 
   overlayOff() {
     document.getElementById('overlay').style.display = 'none';
+  }
+
+  copyMessage(val: string) {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 }

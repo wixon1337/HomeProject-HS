@@ -2,6 +2,7 @@ package hu.flowacademy.Hearthstone.Model;
 
 import hu.flowacademy.Hearthstone.Model.Cards.Card;
 import hu.flowacademy.Hearthstone.Model.Cards.Minion;
+import hu.flowacademy.Hearthstone.Model.Heroes.Hero;
 
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class Board {
     private ArrayList<Card> player1Deck;
     private ArrayList<Card> player2Deck;
     private boolean p1Turn;
+    private Hero player1Hero;
+    private Hero player2Hero;
 
     public Board() {
         this.player1Hand = new ArrayList<>();
@@ -61,6 +64,22 @@ public class Board {
 
     public void setP1Turn(boolean p1Turn) {
         this.p1Turn = p1Turn;
+    }
+
+    public Hero getPlayer1Hero() {
+        return player1Hero;
+    }
+
+    public void setPlayer1Hero(Hero player1Hero) {
+        this.player1Hero = player1Hero;
+    }
+
+    public Hero getPlayer2Hero() {
+        return player2Hero;
+    }
+
+    public void setPlayer2Hero(Hero player2Hero) {
+        this.player2Hero = player2Hero;
     }
 
     public void drawCardByPlayer1() {

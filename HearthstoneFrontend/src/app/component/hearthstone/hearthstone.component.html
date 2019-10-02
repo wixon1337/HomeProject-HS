@@ -1,16 +1,17 @@
-<button (click)="connect()">Connect</button>
+<!-- <button (click)="connect()">Connect</button>
 <button (click)="disconnect()">Disconnect</button>
-<button (click)="sendMessage()">say hello</button>
-<div>
+<button (click)="sendMessage()">say hello</button> -->
+<div *ngIf="!usernameGiven">
+    Type in your name and press start!
     <input id="username" [(ngModel)]="userName" type="text">
     <button (click)="start()">Start</button>
 </div>
-<div>
+<div *ngIf="usernameGiven">
     <!-- <input [(ngModel)]="playGameUrl" type="text" name="" id=""> -->
-    {{ playGameUrl }}
+    Play with your friend: {{ playGameUrl }} <button (click)="copyMessage(playGameUrl)">Copy to clickboard</button>
 </div>
 
-<div class="grid-container">
+<div class="grid-container" *ngIf="usernameGiven">
     <div class="ophero"> {{ opponentUserName }} </div>
     <div class="ophand handcontainer">
         <div *ngFor="let card of player2Hand; let i = index">
