@@ -35,13 +35,7 @@ public class WebSocketResource {
     @MessageMapping("/message/{id}")
     @SendTo("/topic/reply/{id}")
     public String processMessageFromClient(@Payload String message) { // , @DestinationVariable("id") String socketId
-        // TODO
-        // System.out.println("message recieved: " + message + " " + "socketId: " + socketId);
-        // String fromJson = jsonParser.fromJson("szia Todo", String.class);
-
-
-        System.out.println("message recieved: " + message); // Stringet vár!
- /*       jsonParser.toJson("szia TODO");*/
+        System.out.println("message recieved: " + message); // Stringet vár
         return this.wscService.handleMessage(message);
     }
 

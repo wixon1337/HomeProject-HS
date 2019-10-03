@@ -1,17 +1,21 @@
 <div class="wrapper" *ngIf="card !== undefined && card !== null">
     <mat-card-header>
-        <mat-card-title class="cardTitle"> {{ card.name }} <br></mat-card-title>
+        <mat-card-title [ngClass]="{'cardTitle':'card.name.length < 10', 'cardTitleSmall':'card.name.length >= 10'}"
+            class="cardTitle"> {{ card.name }} <br></mat-card-title>
         <mat-card-subtitle class="cardSubTitle">Attack: {{ card.attack }} / Health: {{ card.health }}
         </mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image class="cardimage" src="https://material.angular.io/assets/img/examples/shiba2.jpg"
         alt="Photo of a Shiba Inu">
     <mat-card-content>
-        <p class="cardDesc">
-            Battlecry:
-        </p>
+        <div class="cardDesc">
+            <div *ngIf="card.taunt">Taunt</div>
+            <div *ngIf="card.charge">Charge</div>
+            <div *ngIf="card.Battlecry !== undefined">Battlecry</div>
+            <div *ngIf="!card.taunt && !card.charge && card.Battlecry == undefined">&nbsp;</div>
+        </div>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button (click)="attack()">ATTACK</button>
+        <button mat-button [disabled]="!card.summoned && !card.charge" (click)="attack()">ATTACK</button>
     </mat-card-actions>
 </div>

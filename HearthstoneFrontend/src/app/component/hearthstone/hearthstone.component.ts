@@ -30,6 +30,8 @@ export class HearthstoneComponent implements OnInit {
   player2Deck;
   player2Hand;
   usernameGiven;
+  mana;
+  selected = [null, null];
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
@@ -74,11 +76,12 @@ export class HearthstoneComponent implements OnInit {
 
           this.player1Deck = this.board.player1Deck;
           this.player2Deck = this.board.player2Deck;
+          this.mana = this.board.maxMana;
           this.ourTurn = true;
 
         }
       )
-      setTimeout(() => { this.connect() }, 1000)
+      setTimeout(() => { this.connect() }, 3000)
     }
   }
 
@@ -95,7 +98,22 @@ export class HearthstoneComponent implements OnInit {
   }
 
   summonMinion(cardId) {
-    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "summon", username: this.userName, cardId: cardId }))
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "summon", username: this.userName, cardId: cardId }));
+  }
+
+  attack() {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attack", username: this.userName, selected: this.selected[0], target: this.selected[1] }));
+  }
+
+  select(card) {
+    // console.log(card);
+    this.selected[0] = card.id;
+    console.log(this.selected);
+  }
+
+  selectTarget(card) {
+    this.selected[1] = card.id;
+    console.log(this.selected);
   }
 
   connect() {
@@ -121,6 +139,7 @@ export class HearthstoneComponent implements OnInit {
               this.player1Deck = this.newData.player1Deck;
               this.player2Deck = this.newData.player2Deck;
               this.ourTurn = this.newData.p1Turn;
+              this.mana = this.newData.player1Mana;
             })
         }
       })

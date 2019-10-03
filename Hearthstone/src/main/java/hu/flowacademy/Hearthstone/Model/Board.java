@@ -19,6 +19,9 @@ public class Board {
     private boolean p1Turn;
     private Hero player1Hero;
     private Hero player2Hero;
+    private Integer player1Mana;
+    private Integer player2Mana;
+    private Integer maxMana;
 
     public Board() {
         this.player1Hand = new ArrayList<>();
@@ -28,6 +31,8 @@ public class Board {
         this.player1Deck = new ArrayList<>();
         this.player2Deck = new ArrayList<>();
         this.p1Turn = true;
+        this.maxMana = 1;
+        this.player1Mana = 1;
     }
 
     public ArrayList<Card> getPlayer1Hand() {
@@ -82,6 +87,30 @@ public class Board {
         this.player2Hero = player2Hero;
     }
 
+    public Integer getPlayer1Mana() {
+        return player1Mana;
+    }
+
+    public void setPlayer1Mana(Integer player1Mana) {
+        this.player1Mana = player1Mana;
+    }
+
+    public Integer getPlayer2Mana() {
+        return player2Mana;
+    }
+
+    public void setPlayer2Mana(Integer player2Mana) {
+        this.player2Mana = player2Mana;
+    }
+
+    public Integer getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(Integer maxMana) {
+        this.maxMana = maxMana;
+    }
+
     public void drawCardByPlayer1() {
         player1Hand.add(this.player1Deck.remove(new Random().nextInt(player1Deck.size())));
     }
@@ -114,5 +143,55 @@ public class Board {
 
     public void summonMinionByPlayer2(Minion minion, int index) {
         this.player2Boardside[index] = minion;
+    }
+
+    public Minion findMinionInPlayer1BoardsideById(int cardId) {
+/*        for (Card m : this.player1Boardside) {
+            if (m != null && m.getId().equals(cardId)) {
+                return (Minion)m;
+            }
+        }
+        return null;*/
+        for (int i = 0; i < this.player1Boardside.length; i++) {
+            if (player1Boardside[i] != null) {
+                if (player1Boardside[i].getId().equals(cardId)) {
+                    return player1Boardside[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public Minion findMinionInPlayer2BoardsideById(int cardId) {
+        for (int i = 0; i < this.player2Boardside.length; i++) {
+            if (player2Boardside[i] != null) {
+                if (player2Boardside[i].getId().equals(cardId)) {
+                    return player2Boardside[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public int getMinionIndexOnPlayer1Boardside(int cardId) {
+        for (int i = 0; i < this.player1Boardside.length; i++) {
+            if (this.player1Boardside[i] != null) {
+                if (this.player1Boardside[i].getId().equals(cardId)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int getMinionIndexOnPlayer2Boardside(int cardId) {
+        for (int i = 0; i < this.player2Boardside.length; i++) {
+            if (this.player2Boardside[i] != null){
+                if (this.player2Boardside[i].getId().equals(cardId)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 }

@@ -8,8 +8,9 @@ export class Card {
     charge: boolean;
     summoned: boolean;
     imgUrl: String;
+    cost: number;
 
-    constructor(id: number, name: String, attack: number, health: number, taunt: boolean, charge: boolean, summoned: boolean) {
+    constructor(id: number, name: String, attack: number, health: number, taunt: boolean, charge: boolean, summoned: boolean, cost: number) {
         this.id = id;
         this.name = name;
         this.attack = attack;
@@ -17,5 +18,7 @@ export class Card {
         this.taunt = taunt;
         this.charge = charge;
         this.summoned = summoned;
+        this.cost = cost;
+
     }
 }

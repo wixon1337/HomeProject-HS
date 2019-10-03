@@ -28,23 +28,28 @@
     <div class="opboard">
         <div class="opboardcontainer">
             <div>
-                <app-card-on-board [card]="player2Boardside[4]" *ngIf="player2Boardside !== undefined">
+                <app-card-on-board (click)="selectTarget(player2Boardside[4])" [card]="player2Boardside[4]"
+                    *ngIf="player2Boardside !== undefined">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player2Boardside[3]" *ngIf="player2Boardside !== undefined">
+                <app-card-on-board (click)="selectTarget(player2Boardside[3])" [card]="player2Boardside[3]"
+                    *ngIf="player2Boardside !== undefined">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player2Boardside[2]" *ngIf="player2Boardside !== undefined">
+                <app-card-on-board (click)="selectTarget(player2Boardside[2])" [card]="player2Boardside[2]"
+                    *ngIf="player2Boardside !== undefined">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player2Boardside[1]" *ngIf="player2Boardside !== undefined">
+                <app-card-on-board (click)="selectTarget(player2Boardside[1])" [card]="player2Boardside[1]"
+                    *ngIf="player2Boardside !== undefined">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player2Boardside[0]" *ngIf="player2Boardside !== undefined">
+                <app-card-on-board (click)="selectTarget(player2Boardside[0])" [card]="player2Boardside[0]"
+                    *ngIf="player2Boardside !== undefined">
                 </app-card-on-board>
             </div>
         </div>
@@ -53,23 +58,28 @@
     <div class="board">
         <div class="boardcontainer">
             <div>
-                <app-card-on-board [card]="player1Boardside[0]" *ngIf="player1Boardside !== undefined">
+                <app-card-on-board (click)="select(player1Boardside[0])" [card]="player1Boardside[0]"
+                    *ngIf="player1Boardside !== undefined" (attackEventEmitter)="attack($event)">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player1Boardside[1]" *ngIf="player1Boardside !== undefined">
+                <app-card-on-board (click)="select(player1Boardside[1])" [card]="player1Boardside[1]"
+                    *ngIf="player1Boardside !== undefined" (attackEventEmitter)="attack($event)">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player1Boardside[2]" *ngIf="player1Boardside !== undefined">
+                <app-card-on-board (click)="select(player1Boardside[2])" [card]="player1Boardside[2]"
+                    *ngIf="player1Boardside !== undefined" (attackEventEmitter)="attack($event)">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player1Boardside[3]" *ngIf="player1Boardside !== undefined">
+                <app-card-on-board (click)="select(player1Boardside[3])" [card]="player1Boardside[3]"
+                    *ngIf="player1Boardside !== undefined" (attackEventEmitter)="attack($event)">
                 </app-card-on-board>
             </div>
             <div>
-                <app-card-on-board [card]="player1Boardside[4]" *ngIf="player1Boardside !== undefined">
+                <app-card-on-board (click)="select(player1Boardside[4])" [card]="player1Boardside[4]"
+                    *ngIf="player1Boardside !== undefined" (attackEventEmitter)="attack($event)">
                 </app-card-on-board>
             </div>
         </div>
@@ -78,7 +88,9 @@
         <button mat-fab class="primary" [disabled]="!ourTurn" (click)="endTurn()">End Turn</button>
     </div>
 
-    <div class="hero"> {{ userName }} </div>
+    <div class="hero"> {{ userName }} <br>
+        Mana: {{ mana }}
+    </div>
 
     <div class="hand handcontainer">
         <div *ngFor="let card of player1Hand; let i = index">

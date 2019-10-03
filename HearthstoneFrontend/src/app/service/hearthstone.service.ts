@@ -35,7 +35,7 @@ export class HearthstoneService {
       if (array[i] === null) {
         array[i] = null;
       } else {
-        array[i] = new Card(array[i].id, array[i].name, array[i].attack, array[i].health, array[i].taunt, array[i].charge, array[i].summoned);
+        array[i] = new Card(array[i].id, array[i].name, array[i].attack, array[i].health, array[i].taunt, array[i].charge, array[i].summoned, array[i].cost);
       }
     }
     return array;
@@ -43,7 +43,7 @@ export class HearthstoneService {
 
   convertArrayToCardArray(array) {
     array.forEach(element => {
-      element = new Card(element.id, element.name, element.attack, element.health, element.taunt, element.charge, element.summoned);
+      element = new Card(element.id, element.name, element.attack, element.health, element.taunt, element.charge, element.summoned, element.cost);
     });
     return array;
   }

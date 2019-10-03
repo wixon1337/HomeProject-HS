@@ -8,10 +8,20 @@
 
 .cardTitle {
   font-size: 1.2vw;
+  text-overflow: ellipsis ellipsis; 
+  text-align: center;
+}
+
+.cardTitleSmall {
+  font-size:  0.9vw;
+  text-overflow: ellipsis ellipsis; 
+  text-align: center;
 }
 
 .cardSubTitle {
   font-size: 1vw;
+  text-overflow: ellipsis ellipsis; 
+  text-align: center;
 }
 
 .cardDesc {

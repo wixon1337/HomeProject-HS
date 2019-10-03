@@ -46,15 +46,6 @@ public class WebSocketCommunicationService {
             messageMap.put(keyAndValue[0], keyAndValue[1]);
         }
         System.out.println("map: " + messageMap);
-/*        Map<String, String> randommap = new HashMap<>();
-        randommap.put("kecske", "naonkecske");
-        System.out.println(randommap);*/
-
-/*        System.out.println(message);
-        String convertedMessage = message.replaceAll("\"", "").replaceAll("\\{", "").replaceAll("}", "");
-        System.out.println(convertedMessage);
-        String[] messageArray = convertedMessage.split(":");
-        System.out.println(Arrays.toString(messageArray));*/
 
         if (messageMap.containsKey("type")) {
             if (messageMap.get("type").equals("endTurn")) {
@@ -69,6 +60,9 @@ public class WebSocketCommunicationService {
             } else if (messageMap.get("type").equals("summonp2")) {
                 System.out.println("van benne type és ez a summonp2");
                 type = "summonp2";
+            } else if (messageMap.get("type").equals("attack")) {
+                System.out.println("van benne type és az attack");
+                type = "attack";
             }
         }
         if (messageMap.containsKey("username")) {
@@ -76,66 +70,75 @@ public class WebSocketCommunicationService {
             username = messageMap.get("username");
         }
 
-/*        for (int i = 0; i < messageArray.length; i++) {
-            if (messageArray[i].equals("type")) {
-                System.out.println("van benne type");
-                if (messageArray[i+1].equals("endTurn")) { ;
-                    type = "endTurn";
-                }
-            }
-            if (messageArray[i].equals("username")) {
-                System.out.println("van benne username");
-                username = messageArray[i+1];
-            }
-        }*/
-
         System.out.println("Local variable username: " + username);
 
         Board board = this.boards.get(username);
         GameInstance gameInstance = this.gameInstanceRepository.findByUsername(username);
         if (type.equals("endTurn")) {
-/*            if (gameInstance.isP1Turn()) {
-                gameInstance.setP1Turn(false);
-                board.drawCardByPlayer2();
-            } else {
-                gameInstance.setP1Turn(true);
-                board.drawCardByPlayer1();
-            }*/
             board.drawCardByPlayer2();
             gameInstance.setP1Turn(false);
             board.setP1Turn(false);
+            board.setPlayer2Mana(board.getMaxMana());
+            board.setMaxMana(board.getMaxMana() + 1);
+            for (int i = 0; i < board.getPlayer1Boardside().length; i++) {
+                if (board.getPlayer1Boardside()[i] != null) {
+                    board.getPlayer1Boardside()[i].setSummoned(true);
+                }
+            }
         } else if (type.equals("endTurnp2")) {
             board.drawCardByPlayer1();
             gameInstance.setP1Turn(true);
             board.setP1Turn(true);
+            board.setPlayer1Mana(board.getMaxMana());
+            for (int i = 0; i < board.getPlayer2Boardside().length; i++) {
+                if (board.getPlayer2Boardside()[i] != null) {
+                    board.getPlayer2Boardside()[i].setSummoned(true);
+                }
+            }
         } else if (type.equals("summon")) {
             if (board.isP1Turn()) {
                 Minion minion = board.findMinionInPlayer1HandById(Integer.parseInt(messageMap.get("cardId")));
-                board.summonMinionByPlayer1(minion, generateValidPlaceToSummon(board.getPlayer1Boardside()));
-                board.getPlayer1Hand().remove(minion);
+                if (minion.getCost() <= board.getPlayer1Mana()) {
+                    board.summonMinionByPlayer1(minion, generateValidPlaceToSummon(board.getPlayer1Boardside()));
+                    board.getPlayer1Hand().remove(minion);
+                    board.setPlayer1Mana(board.getPlayer1Mana() - minion.getCost());
+                }
             }
         } else if (type.equals("summonp2")) {
             if (!board.isP1Turn()) {
                 Minion minion = board.findMinionInPlayer2HandById(Integer.parseInt(messageMap.get("cardId")));
-                board.summonMinionByPlayer2(minion, generateValidPlaceToSummon(board.getPlayer2Boardside()));
-                board.getPlayer2Hand().remove(minion);
+                if (minion.getCost() <= board.getPlayer2Mana()) {
+                    board.summonMinionByPlayer2(minion, generateValidPlaceToSummon(board.getPlayer2Boardside()));
+                    board.getPlayer2Hand().remove(minion);
+                    board.setPlayer2Mana(board.getPlayer2Mana() - minion.getCost());
+                }
+            }
+        } else if (type.equals("attack")) {
+            if (board.isP1Turn()) {
+                Minion selectedMinion = board.findMinionInPlayer1BoardsideById(Integer.parseInt(messageMap.get("selected")));
+                Minion targetMinion = board.findMinionInPlayer2BoardsideById(Integer.parseInt(messageMap.get("target")));
+                targetMinion.setHealth(targetMinion.getHealth() - selectedMinion.getAttack());
+                selectedMinion.setHealth(selectedMinion.getHealth() - targetMinion.getAttack());
+                if (selectedMinion.getHealth() <= 0) {
+                    board.getPlayer1Boardside()[board.getMinionIndexOnPlayer1Boardside(selectedMinion.getId())] = null;
+                }
+                if (targetMinion.getHealth() <= 0) {
+                    board.getPlayer2Boardside()[board.getMinionIndexOnPlayer2Boardside(targetMinion.getId())] = null;
+                }
+            } else {
+                Minion selectedMinion = board.findMinionInPlayer2BoardsideById(Integer.parseInt(messageMap.get("selected")));
+                Minion targetMinion = board.findMinionInPlayer1BoardsideById(Integer.parseInt(messageMap.get("target")));
+                targetMinion.setHealth(targetMinion.getHealth() - selectedMinion.getAttack());
+                selectedMinion.setHealth(selectedMinion.getHealth() - targetMinion.getAttack());
+                if (selectedMinion.getHealth() <= 0) {
+                    board.getPlayer2Boardside()[board.getMinionIndexOnPlayer2Boardside(selectedMinion.getId())] = null;
+                }
+                if (targetMinion.getHealth() <= 0) {
+                    board.getPlayer1Boardside()[board.getMinionIndexOnPlayer1Boardside(targetMinion.getId())] = null;
+                }
             }
         }
-/*        GameInstance gameInstance = this.gameInstanceRepository.findByUsername(username);
-        System.out.println(gameInstance == null);
 
-        if (type.equals("endTurn")) {
-            if (gameInstance.isP1Turn()) {
-                gameInstance.setP1Turn(false);
-                // gameInstance.getBoard().drawCardByPlayer2();
-            } else {
-                gameInstance.setP1Turn(true);
-                // gameInstance.getBoard().drawCardByPlayer1();
-            }
-        }*/
-
-        // System.out.println(gameInstance.getBoard() == null);
-        // System.out.println(gameInstance.getBoard().getPlayer1Hand().size() + " és p2hand: " + gameInstance.getBoard().getPlayer2Hand().size());
         return answer;
     }
 
