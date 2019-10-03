@@ -32,6 +32,7 @@ export class HearthstoneComponent implements OnInit {
   usernameGiven;
   mana;
   selected = [null, null];
+  class: string;
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
@@ -141,6 +142,13 @@ export class HearthstoneComponent implements OnInit {
               this.ourTurn = this.newData.p1Turn;
               this.mana = this.newData.player1Mana;
             })
+        } else {
+          /*           let s = message.body;
+                    let result = s.split(":");
+                    if (result[0] === "alert") {
+          
+                    } */
+          alert(message.body);
         }
       })
     });

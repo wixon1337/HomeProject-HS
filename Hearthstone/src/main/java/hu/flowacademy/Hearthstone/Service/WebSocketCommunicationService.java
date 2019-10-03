@@ -117,8 +117,21 @@ public class WebSocketCommunicationService {
             if (board.isP1Turn()) {
                 Minion selectedMinion = board.findMinionInPlayer1BoardsideById(Integer.parseInt(messageMap.get("selected")));
                 Minion targetMinion = board.findMinionInPlayer2BoardsideById(Integer.parseInt(messageMap.get("target")));
-                targetMinion.setHealth(targetMinion.getHealth() - selectedMinion.getAttack());
-                selectedMinion.setHealth(selectedMinion.getHealth() - targetMinion.getAttack());
+                boolean possibleAttack = true;
+                if (!targetMinion.isTaunt()){
+                    for (int i = 0; i < board.getPlayer2Boardside().length; i++) {
+                        // if (!board.getPlayer2Boardside()[i].getId().equals(targetMinion.getId()) && )
+                        if (board.getPlayer2Boardside()[i] != null && board.getPlayer2Boardside()[i].isTaunt()) {
+                            possibleAttack = false;
+                        }
+                    }
+                }
+                if (possibleAttack) {
+                    targetMinion.setHealth(targetMinion.getHealth() - selectedMinion.getAttack());
+                    selectedMinion.setHealth(selectedMinion.getHealth() - targetMinion.getAttack());
+                } else {
+                    answer = "You must attack taunt minion!";
+                }
                 if (selectedMinion.getHealth() <= 0) {
                     board.getPlayer1Boardside()[board.getMinionIndexOnPlayer1Boardside(selectedMinion.getId())] = null;
                 }
@@ -128,8 +141,21 @@ public class WebSocketCommunicationService {
             } else {
                 Minion selectedMinion = board.findMinionInPlayer2BoardsideById(Integer.parseInt(messageMap.get("selected")));
                 Minion targetMinion = board.findMinionInPlayer1BoardsideById(Integer.parseInt(messageMap.get("target")));
-                targetMinion.setHealth(targetMinion.getHealth() - selectedMinion.getAttack());
-                selectedMinion.setHealth(selectedMinion.getHealth() - targetMinion.getAttack());
+                boolean possibleAttack = true;
+                if (!targetMinion.isTaunt()){
+                    for (int i = 0; i < board.getPlayer1Boardside().length; i++) {
+                        // if (!board.getPlayer2Boardside()[i].getId().equals(targetMinion.getId()) && )
+                        if (board.getPlayer2Boardside()[i] != null && board.getPlayer1Boardside()[i].isTaunt()) {
+                            possibleAttack = false;
+                        }
+                    }
+                }
+                if (possibleAttack) {
+                    targetMinion.setHealth(targetMinion.getHealth() - selectedMinion.getAttack());
+                    selectedMinion.setHealth(selectedMinion.getHealth() - targetMinion.getAttack());
+                } else {
+                    answer = "You must attack taunt minion!";
+                }
                 if (selectedMinion.getHealth() <= 0) {
                     board.getPlayer2Boardside()[board.getMinionIndexOnPlayer2Boardside(selectedMinion.getId())] = null;
                 }

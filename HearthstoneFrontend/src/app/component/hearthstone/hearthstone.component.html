@@ -2,8 +2,15 @@
 <button (click)="disconnect()">Disconnect</button>
 <button (click)="sendMessage()">say hello</button> -->
 <div *ngIf="!usernameGiven">
-    Type in your name and press start!
+    Type in your name, select a hero and press start!
     <input id="username" [(ngModel)]="userName" type="text">
+    <select [(ngModel)]="class">
+        <option value="warlock">Warlock</option>
+        <option value="paladin">Paladin</option>
+        <option value="priest">Priest</option>
+        <option value="hunter">Hunter</option>
+        <option value="mage">Mage</option>
+    </select>
     <button (click)="start()">Start</button>
 </div>
 <div *ngIf="usernameGiven">

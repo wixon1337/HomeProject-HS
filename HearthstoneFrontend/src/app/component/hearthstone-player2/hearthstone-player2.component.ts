@@ -69,6 +69,8 @@ export class HearthstonePlayer2Component implements OnInit {
               this.ourTurn = !this.newData.p1Turn;
               this.mana = this.newData.player2Mana;
             })
+        } else {
+          alert(message.body);
         }
       })
     });
