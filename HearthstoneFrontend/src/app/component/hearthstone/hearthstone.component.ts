@@ -78,7 +78,7 @@ export class HearthstoneComponent implements OnInit {
 
         }
       )
-      this.connect();
+      setTimeout(() => { this.connect() }, 1000)
     }
   }
 
@@ -106,6 +106,7 @@ export class HearthstoneComponent implements OnInit {
         console.log("eztet kaptam tetya: ");
         console.log(message.body);
         if (message.body === "update") {
+          console.log(this.userName);
           this.hearthstoneService.updateBoard(this.userName).subscribe(data => {
             this.newData = data;
           }, err => {
