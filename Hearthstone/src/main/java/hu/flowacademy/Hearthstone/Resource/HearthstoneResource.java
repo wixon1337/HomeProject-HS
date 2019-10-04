@@ -3,6 +3,8 @@ package hu.flowacademy.Hearthstone.Resource;
 import com.google.gson.Gson;
 import hu.flowacademy.Hearthstone.Model.Board;
 import hu.flowacademy.Hearthstone.Model.GameInstance;
+import hu.flowacademy.Hearthstone.Model.Heroes.Hero;
+import hu.flowacademy.Hearthstone.Model.Heroes.Warlock;
 import hu.flowacademy.Hearthstone.Repository.GameInstanceRepository;
 import hu.flowacademy.Hearthstone.Repository.PlayerMatchesRepository;
 import hu.flowacademy.Hearthstone.Service.HearthstoneService;
@@ -44,6 +46,16 @@ public class HearthstoneResource {
     @RequestMapping("/newgame/{username}")
     public GameInstance initPlayer1 (@PathVariable("username") String username) {
         return hearthstoneService.initPlayer1(username);
+    }
+
+    @RequestMapping("/getHero/{username}/warlock")
+    public Warlock getHero (@PathVariable("username") String username) {
+        return wscService.getHero("warlock", username);
+    }
+
+    @RequestMapping("/getHeroP2/{username}/{heroSelected}")
+    public Hero getHeroP2 (@PathVariable("username") String username, @PathVariable("heroSelected") String heroSelected) {
+        return wscService.getHeroP2(heroSelected, username);
     }
 
     @RequestMapping("/update/{username}")

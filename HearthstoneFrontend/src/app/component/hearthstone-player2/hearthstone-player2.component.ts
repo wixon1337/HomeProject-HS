@@ -3,6 +3,7 @@ import { HearthstoneService } from 'src/app/service/hearthstone.service';
 import * as Stomp from 'stompjs';
 import { ActivatedRoute } from '@angular/router';
 import { Card } from 'src/app/model/card';
+import { Warlock } from 'src/app/model/Warlock';
 
 @Component({
   selector: 'app-hearthstone-player2',
@@ -32,6 +33,9 @@ export class HearthstonePlayer2Component implements OnInit {
   usernameGiven = false;
   mana;
   selected = [null, null];
+  heroSelected: string;
+  hero;
+  newData2;
 
   constructor(private hearthstoneService: HearthstoneService, private activatedRoute: ActivatedRoute) { }
 
@@ -70,7 +74,9 @@ export class HearthstonePlayer2Component implements OnInit {
               this.mana = this.newData.player2Mana;
             })
         } else {
-          alert(message.body);
+          if (this.ourTurn) {
+            alert(message.body);
+          }
         }
       })
     });
@@ -136,6 +142,17 @@ export class HearthstonePlayer2Component implements OnInit {
           console.log('Opp User Name: ' + this.opponentUserName);
         }); */
     this.connect();
+    setTimeout(() => {
+      this.hearthstoneService.getClass(this.heroSelected, this.opponentUserName).subscribe(data => {
+        console.log("eztet kaptam hero gyanánt: ")
+        console.log(data);
+        this.newData2 = data;
+      }, err => {
+        console.log(err);
+      }, () => {
+        this.hero = new Warlock(this.newData2.abilityCost, this.newData2.health, this.newData2.name, this.newData2.abilityDamage);
+      })
+    }, 1500)
   }
 
   endTurn() {

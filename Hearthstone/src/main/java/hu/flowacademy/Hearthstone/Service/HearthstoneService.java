@@ -101,5 +101,6 @@ public class HearthstoneService {
         }
         board.drawCardByPlayer2();
     }
-    
+
+
 }

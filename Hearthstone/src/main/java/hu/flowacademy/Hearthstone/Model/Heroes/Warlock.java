@@ -7,11 +7,21 @@ import java.util.ArrayList;
 
 public class Warlock extends Hero {
 
-    private Integer abilityDamage;
+    private final Integer abilityDamage;
+    private final String name;
 
     public Warlock() {
         super();
+        this.name = "Warlock";
         this.abilityDamage = 2;
+    }
+
+    public Integer getAbilityDamage() {
+        return abilityDamage;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void lifeTapByPlayer1(Board board) {

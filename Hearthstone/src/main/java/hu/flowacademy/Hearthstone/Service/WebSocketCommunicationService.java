@@ -6,6 +6,9 @@ import hu.flowacademy.Hearthstone.Model.Board;
 import hu.flowacademy.Hearthstone.Model.Cards.Minion;
 import hu.flowacademy.Hearthstone.Model.GameInstance;
 import hu.flowacademy.Hearthstone.Model.GameModel;
+import hu.flowacademy.Hearthstone.Model.Heroes.Hero;
+import hu.flowacademy.Hearthstone.Model.Heroes.Paladin;
+import hu.flowacademy.Hearthstone.Model.Heroes.Warlock;
 import hu.flowacademy.Hearthstone.Repository.GameInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -182,6 +185,29 @@ public class WebSocketCommunicationService {
             random = new Random().nextInt(5);
         }
         return random;
+    }
+
+    public Warlock getHero(String heroSelected, String username) {
+        Board board = this.boards.get(username);
+/*        switch (heroSelected) {
+            case "warlock": board.setPlayer1Hero(new Warlock());
+            break;
+            case "paladin": board.setPlayer1Hero(new Paladin());
+            break;
+        }*/
+        board.setPlayer1Hero(new Warlock());
+        return (Warlock) board.getPlayer1Hero();
+    }
+
+    public Hero getHeroP2(String heroSelected, String username) {
+        Board board = this.boards.get(username);
+        switch (heroSelected) {
+            case "warlock": board.setPlayer2Hero(new Warlock());
+                break;
+            case "paladin": board.setPlayer2Hero(new Paladin());
+                break;
+        }
+        return board.getPlayer2Hero();
     }
 
 /*    private String p1Endturn() {

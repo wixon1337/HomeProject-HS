@@ -4,7 +4,7 @@
 <div *ngIf="!usernameGiven">
     Type in your name, select a hero and press start!
     <input id="username" [(ngModel)]="userName" type="text">
-    <select [(ngModel)]="class">
+    <select [(ngModel)]="heroSelected">
         <option value="warlock">Warlock</option>
         <option value="paladin">Paladin</option>
         <option value="priest">Priest</option>
@@ -96,7 +96,11 @@
     </div>
 
     <div class="hero"> {{ userName }} <br>
-        Mana: {{ mana }}
+        Mana: {{ mana }} <br>
+        <div *ngIf="hero !== undefined">
+            {{ hero.name }} Health: {{ hero.health }} <br>
+            <button mat-fab [disabled]="!ourTurn">Ability</button>
+        </div>
     </div>
 
     <div class="hand handcontainer">

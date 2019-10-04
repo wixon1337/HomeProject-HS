@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HearthstoneService } from 'src/app/service/hearthstone.service';
 import * as Stomp from 'stompjs';
 import { Card } from 'src/app/model/card';
+import { Hero } from 'src/app/model/hero';
+import { Warlock } from 'src/app/model/Warlock';
 
 
 @Component({
@@ -32,7 +34,9 @@ export class HearthstoneComponent implements OnInit {
   usernameGiven;
   mana;
   selected = [null, null];
-  class: string;
+  heroSelected: string;
+  hero;
+  newData2;
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
@@ -83,6 +87,17 @@ export class HearthstoneComponent implements OnInit {
         }
       )
       setTimeout(() => { this.connect() }, 3000)
+      setTimeout(() => {
+        this.hearthstoneService.getClass(this.heroSelected, username).subscribe(data => {
+          console.log("eztet kaptam hero gyanánt: ")
+          console.log(data);
+          this.newData2 = data;
+        }, err => {
+          console.log(err);
+        }, () => {
+          this.hero = new Warlock(this.newData2.abilityCost, this.newData2.health, this.newData2.name, this.newData2.abilityDamage);
+        })
+      }, 1500)
     }
   }
 
@@ -148,7 +163,9 @@ export class HearthstoneComponent implements OnInit {
                     if (result[0] === "alert") {
           
                     } */
-          alert(message.body);
+          if (this.ourTurn) {
+            alert(message.body);
+          }
         }
       })
     });

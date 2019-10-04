@@ -1,5 +1,12 @@
 <div *ngIf="!usernameGiven">
     <input id="username" [(ngModel)]="userName" type="text">
+    <select [(ngModel)]="heroSelected">
+        <option value="warlock">Warlock</option>
+        <option value="paladin">Paladin</option>
+        <option value="priest">Priest</option>
+        <option value="hunter">Hunter</option>
+        <option value="mage">Mage</option>
+    </select>
     <button (click)="start()">Start</button>
 </div>
 
@@ -81,7 +88,11 @@
     </div>
 
     <div class="hero"> {{ userName }}<br>
-        Mana: {{ mana }}
+        Mana: {{ mana }} <br>
+        <div *ngIf="hero !== undefined">
+            {{ hero.name }} Health: {{ hero.health }} <br>
+            <button mat-fab [disabled]="!ourTurn">Ability</button>
+        </div>
     </div>
 
     <div class="hand handcontainer">
