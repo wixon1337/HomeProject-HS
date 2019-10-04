@@ -11,7 +11,10 @@
 </div>
 
 <div class="grid-container" *ngIf="usernameGiven">
-    <div class="ophero"> {{ opponentUserName }} </div>
+    <div class="ophero">
+        {{ opponentUserName }} <br>
+        {{ opponentHeroName }} Health: {{ opponentHeroHealth }}
+    </div>
     <div class="ophand handcontainer">
         <div *ngFor="let card of player2Hand; let i = index">
             <img class="cardback" src="../../../assets/cardback_0.png" alt="cardback">

@@ -36,6 +36,8 @@ export class HearthstonePlayer2Component implements OnInit {
   heroSelected: string;
   hero;
   newData2;
+  opponentHeroName;
+  opponentHeroHealth;
 
   constructor(private hearthstoneService: HearthstoneService, private activatedRoute: ActivatedRoute) { }
 
@@ -73,6 +75,8 @@ export class HearthstonePlayer2Component implements OnInit {
               this.ourTurn = !this.newData.p1Turn;
               this.mana = this.newData.player2Mana;
               this.hero.health = this.newData.player2Hero.health;
+              this.opponentHeroName = this.newData.player1Hero.name;
+              this.opponentHeroHealth = this.newData.player1Hero.health;
 
             })
         } else {
