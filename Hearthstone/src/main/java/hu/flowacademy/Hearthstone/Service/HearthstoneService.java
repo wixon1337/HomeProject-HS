@@ -69,15 +69,15 @@ public class HearthstoneService {
         Board board = gameInstance.getBoard();
         List<Card> cardList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            cardList.add(new SimpleMinion(2,3,3, false, false ,"test1"));
-            cardList.add(new SimpleMinion(1,1,1,true,false,"test2"));
-            cardList.add(new SimpleMinion(3,3,5,false,true, "test3"));
-            cardList.add(new SimpleMinion(4,4,2,true,false,"test3"));
-            cardList.add(new SimpleMinion(5,5,5,false,false, "test4"));
-            cardList.add(new SimpleMinion(6,5,6,false,false, "test5"));
-            cardList.add(new SimpleMinion(1,0,2,false,true, "test6"));
-            cardList.add(new SimpleMinion(2,1,3,false,true,"test7"));
-            cardList.add(new SimpleMinion(3, 2,3,false,true, "test8"));
+            cardList.add(new SimpleMinion(2,3,3, false, false ,"Crocodile"));
+            cardList.add(new SimpleMinion(1,1,1,true,false,"Boar"));
+            cardList.add(new SimpleMinion(3,3,5,false,true, "Shieldmaster"));
+            cardList.add(new SimpleMinion(4,4,2,true,false,"Tiger"));
+            cardList.add(new SimpleMinion(5,5,5,false,false, "Bear"));
+            cardList.add(new SimpleMinion(6,5,6,false,false, "Ogre"));
+            cardList.add(new SimpleMinion(1,0,2,false,true, "Shieldmaiden"));
+            cardList.add(new SimpleMinion(2,1,3,false,true,"Grizzly"));
+            cardList.add(new SimpleMinion(3, 2,3,false,true, "Scorpid"));
             cardList.add(new ShroomBrewer());
         }
 

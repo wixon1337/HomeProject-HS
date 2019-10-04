@@ -11,10 +11,12 @@ export class CardInHandComponent implements OnInit {
 
   @Input() card: Card;
   @Output() summonEvent = new EventEmitter<number>();
+  cardSrc;
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
   ngOnInit() {
+    this.cardSrc = "./assets/" + this.card.name + ".png";
   }
 
   /*   summon() {

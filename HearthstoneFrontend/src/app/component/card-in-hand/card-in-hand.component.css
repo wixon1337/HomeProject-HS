@@ -1,5 +1,7 @@
 .cardimage {
     max-width: 5vw;
+    width: 5vw;
+    height: 5vw;
   }
 
 .wrapper {

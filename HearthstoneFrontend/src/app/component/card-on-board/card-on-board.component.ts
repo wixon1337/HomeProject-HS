@@ -10,10 +10,20 @@ export class CardOnBoardComponent implements OnInit {
 
   @Input() card: Card;
   @Output() attackEventEmitter = new EventEmitter<number>();
+  cardSrc;
 
   constructor() { }
 
   ngOnInit() {
+    if (this.card !== null) {
+      this.cardSrc = "./assets/" + this.card.name + ".png";
+    }
+  }
+
+  ngOnChanges() {
+    if (this.card !== null) {
+      this.cardSrc = "./assets/" + this.card.name + ".png";
+    }
   }
 
   attack() {

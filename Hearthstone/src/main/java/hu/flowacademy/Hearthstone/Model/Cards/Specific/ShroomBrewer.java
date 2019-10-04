@@ -10,7 +10,7 @@ public class ShroomBrewer extends Battlecry {
 
     public ShroomBrewer() {
         super(4, 4, 4, false, false);
-        this.name = "Shroom Brewer";
+        this.name = "Brewer";
         this.restoreAmount = 4;
     }
 

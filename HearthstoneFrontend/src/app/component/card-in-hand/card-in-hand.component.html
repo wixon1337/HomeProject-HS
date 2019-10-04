@@ -6,8 +6,7 @@
             {{ card.health }}
         </mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image class="cardimage" src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="Photo of a Shiba Inu">
+    <img mat-card-image class="cardimage" src={{cardSrc}} alt="">
     <mat-card-content>
         <div class="cardDesc">
             <div *ngIf="card.taunt">Taunt</div>
