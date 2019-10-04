@@ -37,6 +37,8 @@ export class HearthstoneComponent implements OnInit {
   heroSelected: string;
   hero;
   newData2;
+  opponentHeroName;
+  opponentHeroHealth;
 
   constructor(private hearthstoneService: HearthstoneService) { }
 
@@ -97,7 +99,7 @@ export class HearthstoneComponent implements OnInit {
         }, () => {
           this.hero = new Warlock(this.newData2.abilityCost, this.newData2.health, this.newData2.name, this.newData2.abilityDamage);
         })
-      }, 1500)
+      }, 4500)
     }
   }
 
@@ -132,6 +134,10 @@ export class HearthstoneComponent implements OnInit {
     console.log(this.selected);
   }
 
+  /*   attackHero() {
+      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attackHero", username: this.userName, cardId: cardId }));
+    } */
+
   connect() {
     const socket = new WebSocket('ws://localhost:8081/greeting');
     this.ws = Stomp.over(socket);
@@ -156,6 +162,9 @@ export class HearthstoneComponent implements OnInit {
               this.player2Deck = this.newData.player2Deck;
               this.ourTurn = this.newData.p1Turn;
               this.mana = this.newData.player1Mana;
+              this.hero.health = this.newData.player1Hero.health;
+              this.opponentHeroName = this.newData.player2Hero.name;
+              this.opponentHeroHealth = this.newData.player2Hero.health;
             })
         } else {
           /*           let s = message.body;

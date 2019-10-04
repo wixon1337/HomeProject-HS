@@ -14,8 +14,16 @@ export class HearthstoneService {
     return this.http.get('http://localhost:8081/api/newgame/' + username);
   }
 
+  getBoardP2(username) {
+    return this.http.get('http://localhost:8081/api/newgamep2/' + username);
+  }
+
   getClass(heroSelected, username) {
     return this.http.get('http://localhost:8081/api/getHero/' + username + '/' + heroSelected);
+  }
+
+  getClassP2(heroSelected, username) {
+    return this.http.get('http://localhost:8081/api/getHeroP2/' + username + '/' + heroSelected);
   }
 
   getPlayer2Id(scoketUrl) {

@@ -103,4 +103,7 @@ public class HearthstoneService {
     }
 
 
+    public Board initPlayer2(String username) {
+        return this.wscService.boards.get(username);
+    }
 }

@@ -48,14 +48,24 @@ public class HearthstoneResource {
         return hearthstoneService.initPlayer1(username);
     }
 
-    @RequestMapping("/getHero/{username}/warlock")
-    public Warlock getHero (@PathVariable("username") String username) {
-        return wscService.getHero("warlock", username);
+    @RequestMapping("/newgamep2/{username}")
+    public Board initPlayer2 (@PathVariable("username") String username) {
+        return hearthstoneService.initPlayer2(username);
     }
 
-    @RequestMapping("/getHeroP2/{username}/{heroSelected}")
-    public Hero getHeroP2 (@PathVariable("username") String username, @PathVariable("heroSelected") String heroSelected) {
-        return wscService.getHeroP2(heroSelected, username);
+    @RequestMapping("/getHero/{username}/warlock")
+    public Warlock getHero (@PathVariable("username") String username) {
+        return wscService.getHero(username);
+    }
+
+/*    @RequestMapping("/getHeroPlayer2/{username}/warlock")
+    public Warlock getHeroPlayer2 (@PathVariable("username") String username) {
+        return wscService.getHeroPlayer2("warlock", username);
+    }*/
+
+    @RequestMapping("/getHeroP2/{username}/warlock")
+    public Warlock getHeroP2 (@PathVariable("username") String username) {
+        return wscService.getHeroP2(username);
     }
 
     @RequestMapping("/update/{username}")

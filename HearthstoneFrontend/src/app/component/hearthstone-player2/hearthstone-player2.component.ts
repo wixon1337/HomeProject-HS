@@ -72,6 +72,8 @@ export class HearthstonePlayer2Component implements OnInit {
               this.player1Deck = this.newData.player2Deck;
               this.ourTurn = !this.newData.p1Turn;
               this.mana = this.newData.player2Mana;
+              this.hero.health = this.newData.player2Hero.health;
+
             })
         } else {
           if (this.ourTurn) {
@@ -94,7 +96,7 @@ export class HearthstonePlayer2Component implements OnInit {
     this.opponentUserName = this.activatedRoute.snapshot.params.userName;
     console.log(this.activatedRoute.snapshot.params);
 
-    this.hearthstoneService.getBoard(this.opponentUserName).subscribe(data => {
+    this.hearthstoneService.getBoardP2(this.opponentUserName).subscribe(data => {
       this.newData = data;
     },
       err => {
@@ -104,7 +106,7 @@ export class HearthstonePlayer2Component implements OnInit {
         // console.log((this.newData));
         this.opponentUserId = this.newData.userId;
 
-        this.board = this.newData.board;
+        this.board = this.newData;
         console.log(this.board);
         this.player2Boardside = this.hearthstoneService.convertBoardsideArray(this.board.player1Boardside);
 
@@ -143,7 +145,7 @@ export class HearthstonePlayer2Component implements OnInit {
         }); */
     this.connect();
     setTimeout(() => {
-      this.hearthstoneService.getClass(this.heroSelected, this.opponentUserName).subscribe(data => {
+      this.hearthstoneService.getClassP2(this.heroSelected, this.opponentUserName).subscribe(data => {
         console.log("eztet kaptam hero gyanánt: ")
         console.log(data);
         this.newData2 = data;

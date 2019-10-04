@@ -187,7 +187,7 @@ public class WebSocketCommunicationService {
         return random;
     }
 
-    public Warlock getHero(String heroSelected, String username) {
+    public Warlock getHero(String username) {
         Board board = this.boards.get(username);
 /*        switch (heroSelected) {
             case "warlock": board.setPlayer1Hero(new Warlock());
@@ -199,16 +199,18 @@ public class WebSocketCommunicationService {
         return (Warlock) board.getPlayer1Hero();
     }
 
-    public Hero getHeroP2(String heroSelected, String username) {
+    public Warlock getHeroP2(String username) {
         Board board = this.boards.get(username);
-        switch (heroSelected) {
+/*        switch (heroSelected) {
             case "warlock": board.setPlayer2Hero(new Warlock());
                 break;
             case "paladin": board.setPlayer2Hero(new Paladin());
                 break;
-        }
-        return board.getPlayer2Hero();
+        }*/
+        board.setPlayer2Hero(new Warlock());
+        return (Warlock) board.getPlayer2Hero();
     }
+
 
 /*    private String p1Endturn() {
 
