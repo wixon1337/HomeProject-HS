@@ -75,7 +75,11 @@ public class WebSocketCommunicationService {
         Board board = this.boards.get(username);
         GameInstance gameInstance = this.gameInstanceRepository.findByUsername(username);
         if (type.equals("endTurn")) {
-            board.drawCardByPlayer2();
+            if (board.getPlayer2Hand().size() >= 6) {
+                board.burnCardByPlayer2();
+            } else {
+                board.drawCardByPlayer2();
+            }
             gameInstance.setP1Turn(false);
             board.setP1Turn(false);
             board.setPlayer2Mana(board.getMaxMana());
@@ -86,7 +90,11 @@ public class WebSocketCommunicationService {
                 }
             }
         } else if (type.equals("endTurnp2")) {
-            board.drawCardByPlayer1();
+            if (board.getPlayer1Hand().size() >= 6) {
+                board.burnCardByPlayer1();
+            } else {
+                board.drawCardByPlayer1();
+            }
             gameInstance.setP1Turn(true);
             board.setP1Turn(true);
             board.setPlayer1Mana(board.getMaxMana());

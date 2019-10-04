@@ -119,6 +119,14 @@ public class Board {
         player2Hand.add(this.player2Deck.remove(new Random().nextInt(player2Deck.size())));
     }
 
+    public void burnCardByPlayer1() {
+        this.player1Deck.remove(new Random().nextInt(player1Deck.size()));
+    }
+
+    public void burnCardByPlayer2() {
+        this.player2Deck.remove(new Random().nextInt(player2Deck.size()));
+    }
+
     public Minion findMinionInPlayer1HandById(Integer cardId) {
         for (Card c : this.getPlayer1Hand()) {
             if (c.getId().equals(cardId)) {
