@@ -6,10 +6,10 @@
     <input id="username" [(ngModel)]="userName" type="text">
     <select [(ngModel)]="heroSelected">
         <option value="warlock">Warlock</option>
-        <option value="paladin">Paladin</option>
-        <option value="priest">Priest</option>
-        <option value="hunter">Hunter</option>
-        <option value="mage">Mage</option>
+        <option value="paladin" disabled>Paladin (coming soon)</option>
+        <option value="priest" disabled>Priest (coming soon)</option>
+        <option value="hunter" disabled>Hunter (coming soon)</option>
+        <option value="mage" disabled>Mage (coming soon)</option>
     </select>
     <button (click)="start()">Start</button>
 </div>
