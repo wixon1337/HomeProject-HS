@@ -120,7 +120,16 @@ export class HearthstoneComponent implements OnInit {
   }
 
   attack() {
-    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attack", username: this.userName, selected: this.selected[0], target: this.selected[1] }));
+    if (this.selected[1] === "hero") {
+      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attackHero", username: this.userName, target: "player2Hero", selected: this.selected[0] }));
+    } else {
+      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attack", username: this.userName, selected: this.selected[0], target: this.selected[1] }));
+    }
+  }
+
+  selectHero() {
+    this.selected[1] = "hero";
+    console.log(this.selected);
   }
 
   select(card) {
@@ -134,9 +143,13 @@ export class HearthstoneComponent implements OnInit {
     console.log(this.selected);
   }
 
-  /*   attackHero() {
-      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attackHero", username: this.userName, cardId: cardId }));
-    } */
+  attackHero(cardId) {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attackHero", username: this.userName, cardId: cardId }));
+  }
+
+  lifeTap() {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "lifeTap", username: this.userName }));
+  }
 
   connect() {
     const socket = new WebSocket('ws://localhost:8081/greeting');

@@ -11,7 +11,7 @@
 </div>
 
 <div class="grid-container" *ngIf="usernameGiven">
-    <div class="ophero">
+    <div class="ophero" (click)="selectHero()">
         {{ opponentUserName }} <br>
         {{ opponentHeroName }} Health: {{ opponentHeroHealth }}
     </div>
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="chat">chat</div>
+    <div class="chat"></div>
     <div class="opboard">
         <div class="opboardcontainer">
             <div>
@@ -94,7 +94,7 @@
         Mana: {{ mana }} <br>
         <div *ngIf="hero !== undefined">
             {{ hero.name }} Health: {{ hero.health }} <br>
-            <button mat-fab [disabled]="!ourTurn">Ability</button>
+            <button mat-fab [disabled]="!ourTurn" (click)="lifeTap()">Life Tap</button>
         </div>
     </div>
 

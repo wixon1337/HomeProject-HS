@@ -66,6 +66,12 @@ public class WebSocketCommunicationService {
             } else if (messageMap.get("type").equals("attack")) {
                 System.out.println("van benne type és az attack");
                 type = "attack";
+            } else if (messageMap.get("type").equals(("attackHero"))) {
+                System.out.println("van benne type és az attackHero");
+                type = "attackHero";
+            } else if (messageMap.get("type").equals("lifeTap")) {
+                System.out.println("van benne type és az lifeTap");
+                type = "lifeTap";
             }
         }
         if (messageMap.containsKey("username")) {
@@ -156,7 +162,7 @@ public class WebSocketCommunicationService {
                 if (!targetMinion.isTaunt()){
                     for (int i = 0; i < board.getPlayer1Boardside().length; i++) {
                         // if (!board.getPlayer2Boardside()[i].getId().equals(targetMinion.getId()) && )
-                        if (board.getPlayer2Boardside()[i] != null && board.getPlayer1Boardside()[i].isTaunt()) {
+                        if (board.getPlayer1Boardside()[i] != null && board.getPlayer1Boardside()[i].isTaunt()) {
                             possibleAttack = false;
                         }
                     }
@@ -172,6 +178,52 @@ public class WebSocketCommunicationService {
                 }
                 if (targetMinion.getHealth() <= 0) {
                     board.getPlayer1Boardside()[board.getMinionIndexOnPlayer1Boardside(targetMinion.getId())] = null;
+                }
+            }
+        } else if (type.equals("attackHero")) {
+            if (board.isP1Turn()) {
+                Minion selectedMinion = board.findMinionInPlayer1BoardsideById(Integer.parseInt(messageMap.get("selected")));
+                boolean possibleAttack = true;
+                for (int i = 0; i < board.getPlayer2Boardside().length; i++) {
+                    if (board.getPlayer2Boardside()[i] != null && board.getPlayer2Boardside()[i].isTaunt()) {
+                        possibleAttack = false;
+                    }
+                }
+                if (possibleAttack) {
+                    board.getPlayer2Hero().setHealth(board.getPlayer2Hero().getHealth() - selectedMinion.getAttack());
+                } else {
+                    answer = "You must attack taunt minion!";
+                }
+            } else {
+                Minion selectedMinion = board.findMinionInPlayer2BoardsideById(Integer.parseInt(messageMap.get("selected")));
+                boolean possibleAttack = true;
+                for (int i = 0; i < board.getPlayer1Boardside().length; i++) {
+                    if (board.getPlayer1Boardside()[i] != null && board.getPlayer1Boardside()[i].isTaunt()) {
+                        possibleAttack = false;
+                    }
+                }
+                if (possibleAttack) {
+                    board.getPlayer1Hero().setHealth(board.getPlayer1Hero().getHealth() - selectedMinion.getAttack());
+                } else {
+                    answer = "You must attack taunt minion!";
+                }
+            }
+        } else if (type.equals("lifeTap")) {
+            if (board.isP1Turn()) {
+                if (board.getPlayer1Mana() >= 2) {
+                    board.getPlayer1Hero().setHealth(board.getPlayer1Hero().getHealth() - 2);
+                    board.drawCardByPlayer1();
+                    board.setPlayer1Mana(board.getPlayer1Mana() - 2);
+                } else {
+                    answer = "Not enough mana!";
+                }
+            } else {
+                if (board.getPlayer2Mana() >= 2) {
+                    board.getPlayer2Hero().setHealth(board.getPlayer2Hero().getHealth() - 2);
+                    board.drawCardByPlayer2();
+                    board.setPlayer2Mana(board.getPlayer2Mana() - 2);
+                } else {
+                    answer = "Not enough mana!";
                 }
             }
         }

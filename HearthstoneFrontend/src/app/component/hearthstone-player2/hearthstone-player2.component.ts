@@ -171,8 +171,25 @@ export class HearthstonePlayer2Component implements OnInit {
     this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "summonp2", username: this.opponentUserName, cardId: cardId }))
   }
 
+  /*   attack() {
+      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attack", username: this.opponentUserName, selected: this.selected[0], target: this.selected[1] }));
+    } */
+
   attack() {
-    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attack", username: this.opponentUserName, selected: this.selected[0], target: this.selected[1] }));
+    if (this.selected[1] === "hero") {
+      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attackHero", username: this.opponentUserName, target: "player1Hero", selected: this.selected[0] }));
+    } else {
+      this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "attack", username: this.opponentUserName, selected: this.selected[0], target: this.selected[1] }));
+    }
+  }
+
+  lifeTap() {
+    this.ws.send('/app/message/' + this.socketUrl, {}, JSON.stringify({ type: "lifeTap", username: this.opponentUserName }));
+  }
+
+  selectHero() {
+    this.selected[1] = "hero";
+    console.log(this.selected);
   }
 
   select(card) {
